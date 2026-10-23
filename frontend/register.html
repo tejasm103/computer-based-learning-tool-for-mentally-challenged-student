@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join AccessibleVerse — Free Registration</title>
+  <meta name="description" content="Create a free AccessibleVerse account for students or educators to unlock 3D learning, multilingual courses, and accessibility tools.">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-cube"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <a href="login.html" class="btn btn-secondary btn-sm" data-i18n="nav_login">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - var(--nav-height) - 100px); padding: 3rem 1.5rem;">
+    <div class="card card-glass" style="max-width: 520px; width: 100%; padding: 2.5rem; box-shadow: var(--shadow-lg);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="brand-cube" style="margin: 0 auto 1rem; width: 44px; height: 44px; background: linear-gradient(135deg, var(--secondary), var(--primary));">
+          <i data-lucide="user-plus"></i>
+        </div>
+        <h1 style="font-size: 1.8rem;">Create Free Account</h1>
+        <p style="margin-top: 0.35rem; font-size: 0.95rem;">Join thousands of students and teachers learning without limits.</p>
+      </div>
+
+      <form id="register-form">
+        <!-- Role Selection -->
+        <div class="form-group">
+          <label class="form-label">I am registering as a:</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <label class="card card-glass" style="cursor: pointer; padding: 0.75rem; text-align: center; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+              <input type="radio" name="user-role" value="student" checked style="accent-color: var(--primary);">
+              <span style="font-weight: 600;">🎒 Student</span>
+            </label>
+            <label class="card card-glass" style="cursor: pointer; padding: 0.75rem; text-align: center; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+              <input type="radio" name="user-role" value="teacher" style="accent-color: var(--primary);">
+              <span style="font-weight: 600;">👩‍🏫 Teacher</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">Full Name</label>
+          <input type="text" id="reg-fullname" class="form-input" placeholder="e.g. Maya Sharma" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-username">Username</label>
+          <input type="text" id="reg-username" class="form-input" placeholder="e.g. mayasharma" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" class="form-input" placeholder="maya@school.edu" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password (minimum 6 characters)</label>
+          <input type="password" id="reg-password" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 1.25rem;">
+          <i data-lucide="sparkles"></i> Create My Free Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; font-size: 0.9rem; color: var(--text-muted);">
+        Already registered? <a href="login.html" style="font-weight: 600;">Sign In here</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

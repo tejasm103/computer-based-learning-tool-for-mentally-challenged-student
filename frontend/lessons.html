@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons & Curriculum — AccessibleVerse</title>
+  <meta name="description" content="Explore multilingual lessons in Kannada, Hindi, English, Mathematics, Road Safety, and Coding with audio pronunciation and interactive guides.">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-cube"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link" data-i18n="nav_home"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link active" data-i18n="nav_lessons"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="games.html" class="nav-link" data-i18n="nav_games"><i data-lucide="gamepad-2"></i> 3D Games</a></li>
+          <li><a href="videos.html" class="nav-link" data-i18n="nav_videos"><i data-lucide="film"></i> Videos</a></li>
+          <li><a href="dashboard.html" class="nav-link" data-i18n="nav_dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot"></div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content">
+    <div class="container" style="padding: 3rem 1.5rem 5rem;">
+      <!-- Page Header -->
+      <div style="text-align: center; max-width: 750px; margin: 0 auto 2.5rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">Interactive Curriculum</span>
+        <h1>Explore Lessons Without Limits</h1>
+        <p style="margin-top: 0.5rem; font-size: 1.05rem;">
+          Practice Kannada Swaragalu and Vyanjangalu, Hindi Varnamala, English Phonics, Mathematics tables 1 to 20, road safety rules, and foundational coding.
+        </p>
+      </div>
+
+      <!-- Subject Filters -->
+      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem;">
+        <button class="btn btn-secondary subject-filter-btn active" data-subject="all">All Subjects</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="kannada">ಕನ್ನಡ (Kannada)</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="hindi">हिंदी (Hindi)</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="english">English</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="mathematics">Mathematics</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="everyday">Everyday & Safety</button>
+        <button class="btn btn-secondary subject-filter-btn" data-subject="technology">Technology & Coding</button>
+      </div>
+
+      <!-- Lessons Grid Container (populated by js/lessons.js) -->
+      <div id="lessons-grid-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.75rem;"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Multilingual Education for All.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/lessons.js"></script>
+</body>
+</html>

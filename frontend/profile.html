@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile & Preferences — AccessibleVerse</title>
+  <meta name="description" content="Manage your learning preferences, avatar, language selection, and accessibility settings.">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-cube"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link" data-i18n="nav_home"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link" data-i18n="nav_lessons"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="games.html" class="nav-link" data-i18n="nav_games"><i data-lucide="gamepad-2"></i> 3D Games</a></li>
+          <li><a href="videos.html" class="nav-link" data-i18n="nav_videos"><i data-lucide="film"></i> Videos</a></li>
+          <li><a href="dashboard.html" class="nav-link" data-i18n="nav_dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot"></div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content">
+    <div class="container" style="padding: 3rem 1.5rem 5rem; max-width: 760px;">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">User Center</span>
+        <h1>My Profile & Preferences</h1>
+        <p style="margin-top: 0.25rem;">Customize your learning persona, language, and accessibility preferences.</p>
+      </div>
+
+      <div class="card card-glass" style="padding: 2.5rem;">
+        <form id="profile-edit-form">
+          <!-- Avatar Picker -->
+          <div class="form-group" style="margin-bottom: 1.75rem;">
+            <label class="form-label">Choose Your Learning Avatar:</label>
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+              <label class="card card-glass" style="cursor: pointer; padding: 1rem 1.5rem; text-align: center; border-radius: var(--radius-md);">
+                <input type="radio" name="profile-avatar" value="star" checked style="accent-color: var(--primary);">
+                <div style="font-size: 2.2rem; margin-top: 0.25rem;">⭐</div>
+                <div style="font-size: 0.8rem; font-weight: 600;">Star Explorer</div>
+              </label>
+
+              <label class="card card-glass" style="cursor: pointer; padding: 1rem 1.5rem; text-align: center; border-radius: var(--radius-md);">
+                <input type="radio" name="profile-avatar" value="robot" style="accent-color: var(--primary);">
+                <div style="font-size: 2.2rem; margin-top: 0.25rem;">🤖</div>
+                <div style="font-size: 0.8rem; font-weight: 600;">Sparky Bot</div>
+              </label>
+
+              <label class="card card-glass" style="cursor: pointer; padding: 1rem 1.5rem; text-align: center; border-radius: var(--radius-md);">
+                <input type="radio" name="profile-avatar" value="rocket" style="accent-color: var(--primary);">
+                <div style="font-size: 2.2rem; margin-top: 0.25rem;">🚀</div>
+                <div style="font-size: 0.8rem; font-weight: 600;">Cosmo Rocket</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="profile-name">Display Name</label>
+            <input type="text" id="profile-name" class="form-input" placeholder="Your full name" required>
+          </div>
+
+          <!-- Preferred Language -->
+          <div class="form-group">
+            <label class="form-label" for="profile-lang-select">Preferred Curriculum Language</label>
+            <select id="profile-lang-select" class="form-select">
+              <option value="en">English (Default)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="hi">हिंदी (Hindi)</option>
+            </select>
+          </div>
+
+          <!-- Accessibility Quick Toggles -->
+          <div class="form-group" style="margin-top: 1.5rem;">
+            <label class="form-label">Accessibility Defaults:</label>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="checkbox" id="prof-pref-contrast" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                <span>High Contrast Mode (Pure black and yellow accents)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="checkbox" id="prof-pref-dyslexia" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                <span>Use Dyslexia-Friendly Typography (Lexend font)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="checkbox" id="prof-pref-narration" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                <span>Enable Read-Aloud Voice Narration (TTS)</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 2rem;">
+            <i data-lucide="save"></i> Save Profile & Preferences
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = window.api ? window.api.getCachedUser() : null;
+      if (user) {
+        document.getElementById('profile-name').value = user.full_name || user.username || '';
+        document.getElementById('profile-lang-select').value = user.language_preference || 'en';
+
+        // Avatar radio
+        const avRadio = document.querySelector(`input[name="profile-avatar"][value="${user.avatar || 'star'}"]`);
+        if (avRadio) avRadio.checked = true;
+
+        // A11y checkboxes
+        const a11y = user.accessibility_settings || {};
+        document.getElementById('prof-pref-contrast').checked = !!a11y.high_contrast;
+        document.getElementById('prof-pref-dyslexia').checked = !!a11y.dyslexic_font;
+        document.getElementById('prof-pref-narration').checked = a11y.narration !== false;
+      }
+
+      document.getElementById('profile-edit-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('profile-name').value.trim();
+        const langPref = document.getElementById('profile-lang-select').value;
+        const av = document.querySelector('input[name="profile-avatar"]:checked')?.value || 'star';
+
+        const a11yUpdates = {
+          high_contrast: document.getElementById('prof-pref-contrast').checked,
+          dyslexic_font: document.getElementById('prof-pref-dyslexia').checked,
+          narration: document.getElementById('prof-pref-narration').checked
+        };
+
+        const res = await window.api.auth.updateProfile({
+          full_name: fullName,
+          language_preference: langPref,
+          avatar: av,
+          accessibility_settings: a11yUpdates
+        });
+
+        if (window.lang) {
+          window.lang.applyLanguage(langPref);
+        }
+
+        window.showToast("Profile and preferences saved successfully!", "success");
+      });
+    });
+  </script>
+</body>
+</html>

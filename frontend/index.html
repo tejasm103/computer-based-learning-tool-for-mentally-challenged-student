@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AccessibleVerse — Learn Without Limits | 3D Multilingual Education</title>
+  <meta name="description" content="A competition-quality, WCAG 2.2 accessible 3D educational world for Kannada, Hindi, English, Mathematics, Road Safety, and Coding.">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Accessible Keyboard Skip Link -->
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header & Navigation -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true">
+          <i data-lucide="box"></i>
+        </div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Links -->
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link active" data-i18n="nav_home"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link" data-i18n="nav_lessons"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="games.html" class="nav-link" data-i18n="nav_games"><i data-lucide="gamepad-2"></i> 3D Games</a></li>
+          <li><a href="videos.html" class="nav-link" data-i18n="nav_videos"><i data-lucide="film"></i> Videos</a></li>
+          <li><a href="dashboard.html" class="nav-link" data-i18n="nav_dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Language Selector & Auth Slot) -->
+      <div class="nav-actions">
+        <!-- Language Switcher Pills -->
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en" aria-label="English">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn" aria-label="Kannada (ಕನ್ನಡ)">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi" aria-label="Hindi (हिंदी)">हिंदी</button>
+        </div>
+
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm" data-i18n="nav_login">Sign In</a>
+          <a href="register.html" class="btn btn-primary btn-sm" data-i18n="nav_register">Join Free</a>
+        </div>
+
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="primary-nav-menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main id="main-content" class="main-content">
+    <!-- Hero Section with Genuine Interactive 3D World -->
+    <section class="hero-3d-section" id="hero-metaverse-section" aria-label="3D Interactive Metaverse Hero">
+      <div class="hero-3d-canvas-container" id="world3d-container">
+        <canvas id="world3d-canvas" aria-label="Interactive 3D Educational World featuring Language Sanctuary, Math Mountain, and Safety Hub"></canvas>
+      </div>
+
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="hero-content">
+          <div class="hero-pill">
+            <i data-lucide="sparkles"></i>
+            <span data-i18n="hero_badge">✨ Learn Without Limits — Accessible to All</span>
+          </div>
+
+          <h1 class="hero-title" data-i18n="hero_title">
+            Explore, Learn & Play in an Interactive 3D World
+          </h1>
+
+          <p class="hero-subtitle" data-i18n="hero_subtitle">
+            A competition-quality multilingual educational metaverse designed for students of every ability. Master Kannada, Hindi, English, Mathematics, Road Safety, and Coding.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="lessons.html" class="btn btn-primary btn-lg" data-i18n="hero_cta_start">
+              <i data-lucide="compass"></i> Start Learning Free
+            </a>
+            <a href="games.html" class="btn btn-secondary btn-lg" data-i18n="hero_cta_games">
+              <i data-lucide="gamepad-2"></i> Play 3D Games
+            </a>
+          </div>
+
+          <div class="hero-features-list">
+            <div class="hero-feature-item">
+              <i data-lucide="check" style="color: var(--accent-emerald);"></i>
+              <span data-i18n="hero_feature_trilingual">Trilingual: Kannada, Hindi & English</span>
+            </div>
+            <div class="hero-feature-item">
+              <i data-lucide="check" style="color: var(--accent-emerald);"></i>
+              <span data-i18n="hero_feature_accessible">WCAG 2.2 AA Accessible & Screen-Reader Ready</span>
+            </div>
+            <div class="hero-feature-item">
+              <i data-lucide="check" style="color: var(--accent-emerald);"></i>
+              <span data-i18n="hero_feature_3d">Genuine 3D World with 2D Low-Power Mode</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D World Overlay Controls -->
+      <div class="world-overlay-controls" aria-label="3D World Controls">
+        <div class="world-hint">
+          <i data-lucide="move"></i>
+          <span data-i18n="world_hint_orbit">Drag to rotate view | Scroll to zoom</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="window.a11y.toggle('mode_2d')" id="world-mode-toggle-btn">
+          <i data-lucide="image"></i>
+          <span data-i18n="world_mode_2d">Switch to 2D Mode</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Multilingual Curriculum Overview -->
+    <section class="container" style="padding: 5rem 1.5rem;" aria-labelledby="curriculum-heading">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">Curriculum & Foundation</span>
+        <h2 id="curriculum-heading" data-i18n="sec_curriculum_title">Multilingual & Everyday Curriculum</h2>
+        <p data-i18n="sec_curriculum_subtitle" style="margin-top: 0.5rem;">From foundational alphabets to daily life skills and future-ready technology.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.75rem;">
+        <!-- Kannada -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.5rem; font-weight: 800; font-family: var(--font-kannada); margin-bottom: 1rem;">
+            ಅ
+          </div>
+          <h3 data-i18n="cur_kannada_title">ಕನ್ನಡ (Kannada)</h3>
+          <p data-i18n="cur_kannada_desc" style="margin: 0.5rem 0 1.25rem;">
+            Master Kannada Varnamale — 14 Swaragalu, 34 Vyanjangalu, letter tracing, and authentic pronunciation.
+          </p>
+          <a href="lessons.html?subject=kannada" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore Kannada <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Hindi -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--secondary-light); display: flex; align-items: center; justify-content: center; color: var(--secondary-hover); font-size: 1.5rem; font-weight: 800; font-family: var(--font-devanagari); margin-bottom: 1rem;">
+            अ
+          </div>
+          <h3 data-i18n="cur_hindi_title">हिंदी (Hindi)</h3>
+          <p data-i18n="cur_hindi_desc" style="margin: 0.5rem 0 1.25rem;">
+            Learn Hindi Varnamala — Swar, Vyanjan, matras, phonetics, and everyday Hindi vocabulary.
+          </p>
+          <a href="lessons.html?subject=hindi" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore Hindi <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- English -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ffe4e6; display: flex; align-items: center; justify-content: center; color: #e11d48; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">
+            Aa
+          </div>
+          <h3 data-i18n="cur_english_title">English Phonics</h3>
+          <p data-i18n="cur_english_desc" style="margin: 0.5rem 0 1.25rem;">
+            A–Z uppercase & lowercase, phonics blending, spelling exploration, and reading comprehension.
+          </p>
+          <a href="lessons.html?subject=english" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore English <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Math -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; display: flex; align-items: center; justify-content: center; color: #d97706; margin-bottom: 1rem;">
+            <i data-lucide="calculator"></i>
+          </div>
+          <h3 data-i18n="cur_math_title">Mathematics & Numbers</h3>
+          <p data-i18n="cur_math_desc" style="margin: 0.5rem 0 1.25rem;">
+            Counting 1–100, arithmetic (+, -, *, /), Multiplication tables 1 to 20, shapes, and currency.
+          </p>
+          <a href="lessons.html?subject=mathematics" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore Math <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Road Safety -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #d1fae5; display: flex; align-items: center; justify-content: center; color: #059669; margin-bottom: 1rem;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <h3 data-i18n="cur_safety_title">Everyday Road Safety</h3>
+          <p data-i18n="cur_safety_desc" style="margin: 0.5rem 0 1.25rem;">
+            Traffic lights (Red, Yellow, Green), zebra crossing etiquette, and road pedestrian signs.
+          </p>
+          <a href="lessons.html?subject=everyday" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore Safety <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Coding -->
+        <div class="card">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; color: #7c3aed; margin-bottom: 1rem;">
+            <i data-lucide="code"></i>
+          </div>
+          <h3 data-i18n="cur_coding_title">Computer & Cyber Basics</h3>
+          <p data-i18n="cur_coding_desc" style="margin: 0.5rem 0 1.25rem;">
+            Safe web surfing, digital hygiene, and interactive beginner coding with HTML & Python.
+          </p>
+          <a href="lessons.html?subject=technology" class="btn btn-secondary btn-sm" style="align-self: flex-start;">
+            Explore Coding <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Playable Games Highlight -->
+    <section style="background: var(--bg-surface); padding: 5rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);" aria-labelledby="games-heading">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+          <div>
+            <span class="badge badge-emerald">6 Original Playable Games</span>
+            <h2 id="games-heading" style="margin-top: 0.5rem;">Play, Score & Level Up in 3D</h2>
+            <p style="margin-top: 0.3rem;">Real collision mechanics, question checkpoints, untimed accessible modes, and MongoDB leaderboards.</p>
+          </div>
+          <a href="games.html" class="btn btn-primary">
+            View All 6 Games <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <div class="card game-card">
+            <div class="game-card-banner">
+              <i data-lucide="zap"></i>
+            </div>
+            <div class="game-card-body">
+              <h3>Knowledge Runner 3D</h3>
+              <p>Endless 3-lane runner with jumping, sliding, collectibles, and curriculum checkpoint questions.</p>
+              <a href="games.html#game-knowledge-runner" class="btn btn-secondary btn-sm">Launch Runner</a>
+            </div>
+          </div>
+
+          <div class="card game-card">
+            <div class="game-card-banner" style="background: linear-gradient(135deg, var(--secondary), #10b981);">
+              <i data-lucide="languages"></i>
+            </div>
+            <div class="game-card-body">
+              <h3>Alphabet Adventure</h3>
+              <p>Identify, catch, and match letters in Kannada, Hindi, and English with audio phonics guidance.</p>
+              <a href="games.html#game-alphabet-adventure" class="btn btn-secondary btn-sm">Launch Adventure</a>
+            </div>
+          </div>
+
+          <div class="card game-card">
+            <div class="game-card-banner" style="background: linear-gradient(135deg, var(--accent), var(--primary));">
+              <i data-lucide="calculator"></i>
+            </div>
+            <div class="game-card-body">
+              <h3>Number Quest Arcade</h3>
+              <p>Master fast counting, arithmetic, and multiplication tables 1 to 20 with combo streaks.</p>
+              <a href="games.html#game-number-quest" class="btn btn-secondary btn-sm">Launch Quest</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand">
+            <div class="brand-cube"><i data-lucide="box"></i></div>
+            <span>Accessible<span class="highlight">Verse</span></span>
+          </a>
+          <p>
+            An inclusive, competition-quality educational platform empowering students of all abilities through genuine 3D worlds, multilingual learning, and WCAG 2.2 AA accessibility.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Curriculum</h4>
+          <ul class="footer-links">
+            <li><a href="lessons.html?subject=kannada">ಕನ್ನಡ Varnamale</a></li>
+            <li><a href="lessons.html?subject=hindi">हिंदी वर्णमाला</a></li>
+            <li><a href="lessons.html?subject=english">English Phonics</a></li>
+            <li><a href="lessons.html?subject=mathematics">Math & Tables 1–20</a></li>
+            <li><a href="lessons.html?subject=everyday">Road Safety & Habits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Playable Games</h4>
+          <ul class="footer-links">
+            <li><a href="games.html">Knowledge Runner 3D</a></li>
+            <li><a href="games.html">Alphabet Adventure</a></li>
+            <li><a href="games.html">Number Quest</a></li>
+            <li><a href="games.html">Memory Match 3D</a></li>
+            <li><a href="games.html">Traffic Safety Sim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Accessibility & Stack</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="window.a11y.toggleModal(); return false;">Accessibility Tools</a></li>
+            <li><a href="videos.html">YouTube Learning Library</a></li>
+            <li><a href="dashboard.html">Student & Teacher Portal</a></li>
+            <li><a href="https://github.com" target="_blank" rel="noopener">GitHub Repository</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits. All rights reserved.</div>
+        <div>Built with Vanilla HTML, CSS, JavaScript, Three.js, Flask, & MongoDB Atlas.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Dependencies & Application -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Application Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/world3d.js"></script>
+
+  <!-- Instantiate 3D World on Home Page -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const world = new EducationalWorld3D('world3d-canvas', 'world3d-container');
+      world.init();
+      window.worldInstance = world;
+    });
+  </script>
+</body>
+</html>

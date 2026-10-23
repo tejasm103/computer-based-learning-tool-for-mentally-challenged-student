@@ -1,0 +1,9 @@
+# Python dependencies for AccessibleVerse Backend
+Flask>=3.0.0
+Flask-Cors>=4.0.0
+Flask-JWT-Extended>=4.6.0
+pymongo>=4.6.0
+dnspython>=2.5.0
+python-dotenv>=1.0.0
+werkzeug>=3.0.0
+pytest>=8.0.0

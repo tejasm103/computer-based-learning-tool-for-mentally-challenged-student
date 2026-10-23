@@ -1,0 +1,339 @@
+/* ===================================================================
+   AccessibleVerse — Accessibility Engine (WCAG 2.2 AA / AAA)
+   High Contrast, Font Resizing, Dyslexia Font, Reduced Motion & Tools
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+
+/* ===================================================================
+   Screen Reader Only Utilities
+   =================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ===================================================================
+   Visible Keyboard Focus Indicators
+   =================================================================== */
+*:focus-visible {
+  outline: 3px solid #4f46e5 !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+[data-contrast="high"] *:focus-visible {
+  outline: 4px solid #ffff00 !important;
+  outline-offset: 4px !important;
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+}
+
+/* ===================================================================
+   High Contrast Mode (WCAG 2.2 AAA)
+   =================================================================== */
+[data-contrast="high"] {
+  --bg-main: #000000 !important;
+  --bg-surface: #0a0a0a !important;
+  --bg-surface-glass: #000000 !important;
+  --bg-card: #0a0a0a !important;
+  --bg-hover: #1a1a1a !important;
+
+  --text-main: #ffffff !important;
+  --text-muted: #e2e8f0 !important;
+  --text-light: #cbd5e1 !important;
+
+  --border-color: #ffffff !important;
+  --border-focus: #ffff00 !important;
+
+  --primary: #ffff00 !important;          /* Pure Canary Yellow for maximum contrast */
+  --primary-hover: #fef08a !important;
+  --primary-light: #1c1917 !important;
+  --primary-glow: transparent !important;
+
+  --secondary: #00ffff !important;        /* Pure Cyan */
+  --secondary-hover: #67e8f9 !important;
+
+  --accent: #ff00ff !important;           /* Pure Magenta */
+  --accent-emerald: #00ff66 !important;
+  --accent-amber: #ffff00 !important;
+
+  --shadow-sm: none !important;
+  --shadow-md: none !important;
+  --shadow-lg: none !important;
+  --shadow-glow: none !important;
+}
+
+[data-contrast="high"] .card,
+[data-contrast="high"] .btn,
+[data-contrast="high"] .navbar,
+[data-contrast="high"] .footer,
+[data-contrast="high"] .form-input,
+[data-contrast="high"] .form-select {
+  border: 2px solid #ffffff !important;
+}
+
+[data-contrast="high"] .btn-primary {
+  background: #ffff00 !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  border-color: #ffffff !important;
+}
+
+[data-contrast="high"] .badge {
+  border: 1px solid #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* ===================================================================
+   Dyslexia-Friendly Typography
+   =================================================================== */
+[data-dyslexia="true"] {
+  --font-body: 'Lexend', 'Comic Sans MS', sans-serif !important;
+  --font-heading: 'Lexend', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.85 !important;
+}
+
+[data-dyslexia="true"] p,
+[data-dyslexia="true"] span,
+[data-dyslexia="true"] a,
+[data-dyslexia="true"] li {
+  line-height: 1.85 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ===================================================================
+   Text Resizing Scales
+   =================================================================== */
+html.font-small { font-size: 14px; }
+html.font-medium { font-size: 16px; }
+html.font-large { font-size: 19px; }
+html.font-xlarge { font-size: 22px; }
+
+/* ===================================================================
+   Reduced Motion
+   =================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ===================================================================
+   Floating Accessibility Launcher & Toolbar Panel
+   =================================================================== */
+.a11y-launcher-btn {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 1.75rem;
+  z-index: 9999;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.a11y-launcher-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 22px var(--primary-glow);
+}
+
+.a11y-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.a11y-modal-backdrop.active {
+  display: flex;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.a11y-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.a11y-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.a11y-panel-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.a11y-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.a11y-close-btn:hover {
+  color: var(--text-main);
+  background: var(--bg-hover);
+}
+
+.a11y-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.a11y-card-toggle {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.a11y-card-toggle:hover {
+  border-color: var(--primary);
+  background: var(--bg-hover);
+}
+
+.a11y-card-toggle.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+[data-theme="dark"] .a11y-card-toggle.active {
+  background: rgba(79, 70, 229, 0.25);
+  color: #a5b4fc;
+}
+
+.a11y-card-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.a11y-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Font Size Controls Group */
+.a11y-font-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.a11y-font-btn {
+  flex: 1;
+  padding: 0.6rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.a11y-font-btn.active, .a11y-font-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+/* Narration Helper Overlay / Sound Badge */
+.narration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--secondary-hover);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.narration-badge:hover {
+  background: var(--secondary);
+  color: #ffffff;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
