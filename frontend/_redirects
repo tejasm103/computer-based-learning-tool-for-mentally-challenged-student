@@ -1,0 +1,8 @@
+# AccessibleVerse Netlify Route Redirects (Static Multi-Page URLs)
+/login      /login.html      200
+/register   /register.html   200
+/dashboard  /dashboard.html  200
+/lessons    /lessons.html    200
+/games      /games.html      200
+/videos     /videos.html     200
+/profile    /profile.html    200

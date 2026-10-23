@@ -119,6 +119,31 @@
           </button>
         </form>
       </div>
+
+      <!-- Cloud Backend API Settings Card -->
+      <div class="card card-glass" style="padding: 2.5rem; margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0;">Backend API Connection (Render / Local)</h2>
+            <p style="font-size: 0.9rem; margin-top: 0.25rem; color: var(--text-muted, #94a3b8);">Configure or test the REST API endpoint for user accounts, quizzes, and leaderboards.</p>
+          </div>
+          <span id="api-status-badge" class="badge badge-warning" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Checking...</span>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label" for="backend-url-input">API Base URL</label>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <input type="url" id="backend-url-input" class="form-input" placeholder="https://your-service.onrender.com" style="flex: 1; min-width: 260px;">
+            <button type="button" id="btn-test-backend" class="btn btn-primary" style="white-space: nowrap;">
+              <i data-lucide="activity"></i> Test & Connect
+            </button>
+            <button type="button" id="btn-reset-backend" class="btn btn-secondary" title="Reset to auto-detected URL">
+              <i data-lucide="rotate-ccw"></i> Reset
+            </button>
+          </div>
+        </div>
+        <div id="backend-status-msg" style="font-size: 0.88rem; min-height: 1.4rem; font-weight: 500;"></div>
+      </div>
     </div>
   </main>
 
@@ -179,8 +204,72 @@
           window.lang.applyLanguage(langPref);
         }
 
-        window.showToast("Profile and preferences saved successfully!", "success");
+        if (window.showToast) {
+          window.showToast("Profile and preferences saved successfully!", "success");
+        }
       });
+
+      // Backend Connection Settings & Health Diagnostic
+      const backendInput = document.getElementById('backend-url-input');
+      const backendStatusBadge = document.getElementById('api-status-badge');
+      const backendStatusMsg = document.getElementById('backend-status-msg');
+
+      function updateBackendUI() {
+        if (backendInput && window.CONFIG) {
+          backendInput.value = window.CONFIG.API_BASE_URL;
+        }
+      }
+
+      async function checkBackendHealth() {
+        if (!backendStatusBadge) return;
+        backendStatusBadge.className = 'badge badge-warning';
+        backendStatusBadge.textContent = 'Testing...';
+        backendStatusMsg.style.color = '#94a3b8';
+        backendStatusMsg.textContent = 'Pinging ' + window.CONFIG.API_BASE_URL + '/api/health...';
+
+        try {
+          const res = await window.api.health.check();
+          if (res && res.status === 'healthy') {
+            backendStatusBadge.className = 'badge badge-success';
+            backendStatusBadge.textContent = '🟢 Connected';
+            backendStatusMsg.style.color = '#10b981';
+            backendStatusMsg.textContent = `Backend is online! DB: ${res.database?.connected ? 'MongoDB Atlas Connected' : 'Local Fallback'}`;
+          } else {
+            backendStatusBadge.className = 'badge badge-warning';
+            backendStatusBadge.textContent = '🟡 Offline Mode';
+            backendStatusMsg.style.color = '#f59e0b';
+            backendStatusMsg.textContent = 'Backend is not reachable (or waking from sleep). Local storage fallback is active.';
+          }
+        } catch (e) {
+          backendStatusBadge.className = 'badge badge-danger';
+          backendStatusBadge.textContent = '🔴 Disconnected';
+          backendStatusMsg.style.color = '#ef4444';
+          backendStatusMsg.textContent = 'Connection error. Check URL and ensure backend is deployed.';
+        }
+      }
+
+      updateBackendUI();
+      checkBackendHealth();
+
+      document.getElementById('btn-test-backend')?.addEventListener('click', async () => {
+        const val = backendInput.value.trim();
+        if (window.setBackendUrl) {
+          window.setBackendUrl(val);
+        }
+        await checkBackendHealth();
+      });
+
+      document.getElementById('btn-reset-backend')?.addEventListener('click', async () => {
+        if (window.setBackendUrl) {
+          window.setBackendUrl('');
+        }
+        updateBackendUI();
+        await checkBackendHealth();
+      });
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
     });
   </script>
 </body>

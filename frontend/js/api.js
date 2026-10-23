@@ -5,9 +5,17 @@
 
 class ApiClient {
   constructor() {
-    this.baseUrl = (window.CONFIG && window.CONFIG.API_BASE_URL) || 'http://127.0.0.1:5000';
+    this._baseUrl = null;
     this.tokenKey = 'accessibleverse_jwt_token';
     this.userKey = 'accessibleverse_user_profile';
+  }
+
+  get baseUrl() {
+    return this._baseUrl || (window.CONFIG && window.CONFIG.API_BASE_URL) || 'http://127.0.0.1:5000';
+  }
+
+  set baseUrl(url) {
+    this._baseUrl = url;
   }
 
   // Token Management

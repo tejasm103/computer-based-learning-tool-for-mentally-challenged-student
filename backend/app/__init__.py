@@ -31,15 +31,31 @@ def create_app():
     app.config["JWT_HEADER_NAME"] = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
     
-    # Allowed CORS Origins
-    allowed_origins_env = os.getenv("FRONTEND_ORIGIN", "http://localhost:5500,http://127.0.0.1:5500,http://localhost:3000,http://127.0.0.1:8080")
-    allowed_origins = [orig.strip() for orig in allowed_origins_env.split(",") if orig.strip()]
+    # Allowed CORS Origins - Supports local dev, Netlify deployments, and custom origins
+    import re
+    allowed_origins_env = os.getenv("FRONTEND_ORIGIN", "")
+    
+    # Default origin patterns (support local dev & any *.netlify.app domain out of the box)
+    origin_patterns = [
+        re.compile(r"^https:\/\/.*\.netlify\.app$"),
+        re.compile(r"^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$"),
+    ]
+    
+    is_wildcard = False
+    if allowed_origins_env:
+        for orig in allowed_origins_env.split(","):
+            orig = orig.strip()
+            if orig == "*":
+                is_wildcard = True
+                break
+            elif orig:
+                origin_patterns.append(orig)
     
     # Initialize CORS
     CORS(
         app,
-        resources={r"/api/*": {"origins": allowed_origins if allowed_origins else "*"}},
-        supports_credentials=True,
+        resources={r"/api/*": {"origins": "*" if is_wildcard else origin_patterns}},
+        supports_credentials=not is_wildcard,
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )

@@ -1,0 +1,26 @@
+services:
+  # AccessibleVerse Flask REST API on Render
+  - type: web
+    name: accessibleverse-backend
+    runtime: python
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT run:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: accessibleverse
+      - key: FRONTEND_ORIGIN
+        value: "*"
