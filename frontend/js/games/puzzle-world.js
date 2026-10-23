@@ -5,6 +5,7 @@
 
 class PuzzleWorldGame {
   constructor(containerId = 'puzzle-world-container') {
+    this.containerId = containerId;
     this.container = document.getElementById(containerId);
     this.currentLevel = 0;
     this.score = 0;
@@ -43,18 +44,47 @@ class PuzzleWorldGame {
         explanation: "In Kannada Varnamale, 'ಉ' (short u) is followed by 'ಊ' (long oo as in Oota)."
       },
       {
+        title: "Hindi Swar Order (हिंदी स्वर)",
+        description: "Complete the Hindi vowel sequence:",
+        sequence: ["अ", "आ", "इ", "ई", "उ", "❓"],
+        options: ["ऊ", "ए", "ओ", "ऋ"],
+        correct: 0,
+        explanation: "In Hindi Varnamala, 'उ' (short u) is followed by 'ऊ' (long oo as in Oon)!"
+      },
+      {
+        title: "English Alphabet Sequence",
+        description: "Which letter comes next in the alphabet?",
+        sequence: ["A", "B", "C", "D", "E", "❓"],
+        options: ["F", "G", "H", "K"],
+        correct: 0,
+        explanation: "Letter E is followed by letter F (F for Fish) in the English alphabet!"
+      },
+      {
         title: "Daily Hygiene Routine",
         description: "What is the crucial morning routine after waking up?",
         sequence: ["🌅 Wake Up", "🪥 Brush Teeth", "🚿 Bath", "❓"],
         options: ["👕 Wear Clean Clothes", "💤 Go back to sleep", "🎮 Play video games for 5 hours", "📺 Watch TV in dark"],
         correct: 0,
         explanation: "After bathing, dressing in neat, clean clothes sets you up for a productive day!"
+      },
+      {
+        title: "Road Safety Sequence",
+        description: "What should you do before crossing the street?",
+        sequence: ["🚶 Approach Curb", "👀 Look Left", "👀 Look Right", "❓"],
+        options: ["🚶 Walk across Zebra Crossing safely", "🏃 Run blindly", "📱 Stare at phone", "🛑 Close eyes"],
+        correct: 0,
+        explanation: "Always check left, check right, and cross calmly on the zebra crossing!"
       }
     ];
   }
 
   init() {
+    if (!this.container) {
+      this.container = document.getElementById(this.containerId || 'puzzle-world-container');
+    }
     if (!this.container) return;
+    this.score = 0;
+    this.currentLevel = 0;
     this.setupUI();
     this.loadPuzzle(0);
   }
@@ -67,7 +97,7 @@ class PuzzleWorldGame {
             <h3 id="puzzle-title">Pattern Puzzle</h3>
             <p id="puzzle-desc" style="font-size: 0.9rem;">Analyze the sequence and choose the missing piece.</p>
           </div>
-          <span class="stat-pill"><i data-lucide="award"></i> Level: <strong id="puzzle-lvl">1/5</strong></span>
+          <span class="stat-pill"><i data-lucide="award"></i> Level: <strong id="puzzle-lvl">1/8</strong></span>
         </div>
 
         <!-- Sequence Row -->
@@ -111,7 +141,7 @@ class PuzzleWorldGame {
       chip.textContent = item;
       if (item === '❓') {
         chip.style.border = '2px dashed var(--primary)';
-        chip.style.color = var(--primary);
+        chip.style.color = 'var(--primary)';
       }
       seqRow.appendChild(chip);
     });
@@ -172,7 +202,7 @@ class PuzzleWorldGame {
       window.api.games.submitScore({
         game_id: 'puzzle-world',
         score: this.score,
-        level: 5
+        level: 8
       });
     }
   }
