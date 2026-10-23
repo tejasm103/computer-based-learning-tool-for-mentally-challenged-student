@@ -191,11 +191,15 @@ class EducationalWorld3D {
   }
 
   createFloatingIslands() {
-    // 1. Language Sanctuary (Left)
+    this.islands = [];
+    this.collectibles = [];
+
+    // 1. Languages Sanctuary
     const langIsland = this.buildIslandMesh({
-      name: "Language Island",
+      name: "Languages Sanctuary",
       subject: "kannada",
-      pos: [-14, 0, -2],
+      url: "lessons.html?subject=kannada",
+      pos: [-16, 0, -4],
       color: 0x4f46e5,
       accentColor: 0x818cf8,
       glyphText: "ಅ अ A",
@@ -204,11 +208,12 @@ class EducationalWorld3D {
     this.islands.push(langIsland);
     this.scene.add(langIsland.group);
 
-    // 2. Math Mountain (Right)
+    // 2. Mathematics Mountain
     const mathIsland = this.buildIslandMesh({
-      name: "Math Mountain",
+      name: "Mathematics Mountain",
       subject: "mathematics",
-      pos: [14, 2, -4],
+      url: "lessons.html?subject=mathematics",
+      pos: [16, 1, -4],
       color: 0x06b6d4,
       accentColor: 0x38bdf8,
       glyphText: "1 2 3 ×",
@@ -217,31 +222,96 @@ class EducationalWorld3D {
     this.islands.push(mathIsland);
     this.scene.add(mathIsland.group);
 
-    // 3. Safety & Life Island (Center-Forward)
-    const safetyIsland = this.buildIslandMesh({
-      name: "Everyday & Safety Island",
-      subject: "everyday",
-      pos: [0, -2, 10],
+    // 3. Science & Cosmic Oasis
+    const scienceIsland = this.buildIslandMesh({
+      name: "Science Explorer Oasis",
+      subject: "science",
+      url: "science.html",
+      pos: [-11, 3, 14],
       color: 0x10b981,
       accentColor: 0x34d399,
-      glyphText: "🚦 🚸 🛡️",
-      monumentType: 'traffic'
+      glyphText: "🪐 🔬 🌱",
+      monumentType: 'atom'
     });
-    this.islands.push(safetyIsland);
-    this.scene.add(safetyIsland.group);
+    this.islands.push(scienceIsland);
+    this.scene.add(scienceIsland.group);
 
-    // 4. Cyber & Coding Island (Center-Back)
+    // 4. Computers & Coding Hub
+    const codingIsland = this.buildIslandMesh({
+      name: "Computers & Coding Hub",
+      subject: "coding",
+      url: "coding.html",
+      pos: [11, 2, 14],
+      color: 0x8b5cf6,
+      accentColor: 0xc4b5fd,
+      glyphText: "</> 💻 ⚡",
+      monumentType: 'terminal'
+    });
+    this.islands.push(codingIsland);
+    this.scene.add(codingIsland.group);
+
+    // 5. Cybersecurity Escape Citadel
     const cyberIsland = this.buildIslandMesh({
-      name: "Cyber & Tech Hub",
-      subject: "technology",
-      pos: [0, 4, -16],
-      color: 0xec4899,
-      accentColor: 0xf472b6,
-      glyphText: "</> 💻 🌐",
-      monumentType: 'cyber'
+      name: "Cybersecurity Citadel",
+      subject: "cybersecurity",
+      url: "cybersecurity.html",
+      pos: [-7, 5, -18],
+      color: 0xef4444,
+      accentColor: 0xf87171,
+      glyphText: "🛡️ 🔑 🔒",
+      monumentType: 'shield'
     });
     this.islands.push(cyberIsland);
     this.scene.add(cyberIsland.group);
+
+    // 6. Real-World Life Skills Island
+    const lifeIsland = this.buildIslandMesh({
+      name: "Life Skills & Money Island",
+      subject: "life_skills",
+      url: "life-skills.html",
+      pos: [7, 4, -18],
+      color: 0xf59e0b,
+      accentColor: 0xfbbf24,
+      glyphText: "₹ ⏰ 🚦",
+      monumentType: 'traffic'
+    });
+    this.islands.push(lifeIsland);
+    this.scene.add(lifeIsland.group);
+
+    // Add interactive floating Star Collectibles around islands
+    this.spawnCollectibles();
+  }
+
+  spawnCollectibles() {
+    const starPositions = [
+      [-16, 5, -4],
+      [16, 6, -4],
+      [-11, 8, 14],
+      [11, 7, 14],
+      [-7, 10, -18],
+      [7, 9, -18],
+      [0, 10, 0]
+    ];
+
+    starPositions.forEach((pos, idx) => {
+      const starGeo = new THREE.OctahedronGeometry(0.7, 0);
+      const starMat = new THREE.MeshStandardMaterial({
+        color: 0xfbbf24,
+        emissive: 0xd97706,
+        roughness: 0.1,
+        metalness: 0.8
+      });
+      const starMesh = new THREE.Mesh(starGeo, starMat);
+      starMesh.position.set(...pos);
+      starMesh.userData = {
+        isCollectible: true,
+        id: `star_${idx}`,
+        collected: false,
+        baseY: pos[1]
+      };
+      this.scene.add(starMesh);
+      this.collectibles.push(starMesh);
+    });
   }
 
   buildIslandMesh(config) {
@@ -296,6 +366,42 @@ class EducationalWorld3D {
       });
       monument = new THREE.Mesh(pyrGeo, pyrMat);
       monument.position.y = 3.5;
+    } else if (config.monumentType === 'atom') {
+      monument = new THREE.Group();
+      const coreGeo = new THREE.SphereGeometry(0.8, 16, 16);
+      const coreMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.2, metalness: 0.6 });
+      const core = new THREE.Mesh(coreGeo, coreMat);
+      monument.add(core);
+
+      const orbitGeo = new THREE.TorusGeometry(1.6, 0.08, 12, 36);
+      const orbitMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
+      const o1 = new THREE.Mesh(orbitGeo, orbitMat);
+      o1.rotation.x = Math.PI / 3;
+      const o2 = new THREE.Mesh(orbitGeo, orbitMat);
+      o2.rotation.y = Math.PI / 3;
+      monument.add(o1);
+      monument.add(o2);
+      monument.position.y = 3.5;
+    } else if (config.monumentType === 'terminal') {
+      monument = new THREE.Group();
+      const screenGeo = new THREE.BoxGeometry(2.2, 1.6, 0.4);
+      const screenMat = new THREE.MeshStandardMaterial({ color: 0x1e1b4b, roughness: 0.3 });
+      const screen = new THREE.Mesh(screenGeo, screenMat);
+      const displayGeo = new THREE.PlaneGeometry(1.9, 1.3);
+      const displayMat = new THREE.MeshBasicMaterial({ color: 0x8b5cf6 });
+      const display = new THREE.Mesh(displayGeo, displayMat);
+      display.position.z = 0.22;
+      monument.add(screen);
+      monument.add(display);
+      monument.position.y = 3.5;
+    } else if (config.monumentType === 'shield') {
+      monument = new THREE.Group();
+      const shieldGeo = new THREE.CylinderGeometry(1.3, 0.4, 2.2, 6);
+      const shieldMat = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.8, roughness: 0.2 });
+      const shield = new THREE.Mesh(shieldGeo, shieldMat);
+      shield.rotation.z = Math.PI;
+      monument.add(shield);
+      monument.position.y = 3.5;
     } else if (config.monumentType === 'traffic') {
       monument = new THREE.Group();
       const poleGeo = new THREE.CylinderGeometry(0.15, 0.15, 3.5, 8);
@@ -343,6 +449,7 @@ class EducationalWorld3D {
     group.userData = {
       name: config.name,
       subject: config.subject,
+      url: config.url || `lessons.html?subject=${config.subject}`,
       monument: monument,
       initialY: config.pos[1],
       hoverY: config.pos[1] + 1.2,
@@ -426,13 +533,63 @@ class EducationalWorld3D {
       }
     });
 
-    // Click on Island to navigate to curriculum
+    // Click on Island or Collectible
     this.canvas.addEventListener('click', () => {
+      if (!this.camera || !this.raycaster || !this.mouse) return;
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      // Check collectibles first
+      if (this.collectibles && this.collectibles.length > 0) {
+        const starHits = this.raycaster.intersectObjects(this.collectibles);
+        if (starHits.length > 0) {
+          const star = starHits[0].object;
+          if (!star.userData.collected) {
+            star.userData.collected = true;
+            this.collectStar(star);
+            return;
+          }
+        }
+      }
+
+      // Check islands
       if (this.hoveredIsland) {
-        const subject = this.hoveredIsland.userData.subject;
-        window.location.href = `lessons.html?subject=${subject}`;
+        const url = this.hoveredIsland.userData.url || `lessons.html?subject=${this.hoveredIsland.userData.subject}`;
+        window.location.href = url;
       }
     });
+  }
+
+  collectStar(star) {
+    // Animate star shrink and reward XP
+    const startScale = star.scale.x;
+    let progress = 0;
+    const shrink = () => {
+      progress += 0.1;
+      const s = THREE.MathUtils.lerp(startScale, 0, progress);
+      star.scale.set(s, s, s);
+      if (progress < 1) {
+        requestAnimationFrame(shrink);
+      } else {
+        star.visible = false;
+      }
+    };
+    shrink();
+
+    // Show celebratory toast
+    if (window.showToast) {
+      window.showToast("⭐ Universe Star Found! +15 XP Added!", "success");
+    }
+
+    // Award XP locally & sync if ApiClient is present
+    try {
+      const user = JSON.parse(localStorage.getItem('accessibleverse_user') || '{}');
+      user.xp = (user.xp || 0) + 15;
+      localStorage.setItem('accessibleverse_user', JSON.stringify(user));
+      window.dispatchEvent(new CustomEvent('xpUpdated', { detail: { xp: user.xp, added: 15 } }));
+      if (window.ApiClient && window.ApiClient.learningPath) {
+        window.ApiClient.learningPath.syncProgress({ addedXp: 15, completedIslandStar: star.userData.id }).catch(() => {});
+      }
+    } catch {}
   }
 
   animate() {
@@ -464,6 +621,17 @@ class EducationalWorld3D {
         }
       }
     });
+
+    // Animate Collectibles
+    if (this.collectibles && !this.isReducedMotion) {
+      this.collectibles.forEach((star, idx) => {
+        if (!star.userData.collected) {
+          star.rotation.y += 0.03;
+          star.rotation.x += 0.02;
+          star.position.y = star.userData.baseY + Math.sin(time * 3 + idx) * 0.4;
+        }
+      });
+    }
 
     // Animate Mascot "Sparky"
     if (this.mascot && !this.isReducedMotion) {
@@ -545,18 +713,28 @@ class EducationalWorld3D {
     this.canvas2D.height = this.container.clientHeight || 550;
     this.ctx2D = this.canvas2D.getContext('2d');
 
+    // Island cards for 2D mode
+    this.islands2DData = [
+      { id: 'kannada', title: 'Languages Sanctuary', sub: 'ಕನ್ನಡ • हिंदी • English', color: '#4f46e5', url: 'lessons.html?subject=kannada' },
+      { id: 'math', title: 'Mathematics Mountain', sub: 'Numbers • Tables • Shapes', color: '#06b6d4', url: 'lessons.html?subject=mathematics' },
+      { id: 'science', title: 'Science Explorer Oasis', sub: 'Planets • Ecology • Physics', color: '#10b981', url: 'science.html' },
+      { id: 'coding', title: 'Coding & Computers', sub: 'HTML • CSS • JS • Python', color: '#8b5cf6', url: 'coding.html' },
+      { id: 'cyber', title: 'Cybersecurity Citadel', sub: 'Passwords • Phishing • Safety', color: '#ef4444', url: 'cybersecurity.html' },
+      { id: 'life', title: 'Real-World Life Skills', sub: '₹ Rupee • Clock • Habits', color: '#f59e0b', url: 'life-skills.html' }
+    ];
+
     this.canvas2D.addEventListener('click', (e) => {
       const rect = this.canvas2D.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
 
-      // Click areas for 2D islands
-      if (x < rect.width * 0.45 && y < rect.height * 0.5) {
-        window.location.href = 'lessons.html?subject=kannada';
-      } else if (x > rect.width * 0.55 && y < rect.height * 0.5) {
-        window.location.href = 'lessons.html?subject=mathematics';
-      } else if (y > rect.height * 0.6) {
-        window.location.href = 'lessons.html?subject=everyday';
+      if (this.island2DBounds) {
+        for (const item of this.island2DBounds) {
+          if (clickX >= item.x && clickX <= item.x + item.w && clickY >= item.y && clickY <= item.y + item.h) {
+            window.location.href = item.url;
+            return;
+          }
+        }
       }
     });
 
@@ -581,48 +759,54 @@ class EducationalWorld3D {
     // 2D Mascot "Sparky"
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.arc(w / 2, h * 0.25, 32, 0, Math.PI * 2);
+    ctx.arc(w / 2, 42, 26, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = '#06b6d4';
-    ctx.fillRect(w / 2 - 20, h * 0.25 - 8, 40, 16);
+    ctx.fillRect(w / 2 - 16, 36, 32, 12);
 
     ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 15px Outfit, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('👋 Hello Explorer! Click an Island below:', w / 2, h * 0.38);
+    ctx.fillText('👋 Accessible 2D Learning Map — Select an Island to Explore:', w / 2, 85);
 
-    // Island 1: Language Sanctuary
-    this.draw2DIsland(w * 0.25, h * 0.55, 'Language Island', 'ಕನ್ನಡ • हिंदी • English', '#4f46e5');
+    // Render 6 island cards in 2 columns
+    this.island2DBounds = [];
+    const cols = w > 650 ? 3 : 2;
+    const cardW = Math.min((w - 40 - (cols - 1) * 16) / cols, 240);
+    const cardH = 75;
+    const startY = 110;
 
-    // Island 2: Math Mountain
-    this.draw2DIsland(w * 0.75, h * 0.55, 'Math Mountain', '1 to 100 • Tables 1–20', '#06b6d4');
+    this.islands2DData.forEach((item, idx) => {
+      const col = idx % cols;
+      const row = Math.floor(idx / cols);
+      const totalGridW = cols * cardW + (cols - 1) * 16;
+      const startX = (w - totalGridW) / 2;
+      const x = startX + col * (cardW + 16);
+      const y = startY + row * (cardH + 16);
 
-    // Island 3: Everyday Life & Safety
-    this.draw2DIsland(w * 0.5, h * 0.82, 'Life & Safety Hub', '🚦 Traffic • 🧼 Habits • 💻 Coding', '#10b981');
-  }
+      this.island2DBounds.push({ x, y, w: cardW, h: cardH, url: item.url });
 
-  draw2DIsland(x, y, title, subtitle, color) {
-    const ctx = this.ctx2D;
-    ctx.save();
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.roundRect(x - 120, y - 45, 240, 90, 16);
-    ctx.fill();
+      ctx.save();
+      ctx.fillStyle = item.color;
+      ctx.beginPath();
+      ctx.roundRect(x, y, cardW, cardH, 12);
+      ctx.fill();
 
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 16px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(title, x, y - 5);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px Outfit, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(item.title, x + 14, y + 28);
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-    ctx.font = '13px Inter, sans-serif';
-    ctx.fillText(subtitle, x, y + 20);
-    ctx.restore();
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.font = '12px Inter, sans-serif';
+      ctx.fillText(item.sub, x + 14, y + 52);
+      ctx.restore();
+    });
   }
 
   switchTo2D() {

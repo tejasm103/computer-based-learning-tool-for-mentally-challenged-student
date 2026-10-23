@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-World Life Skills — AccessibleVerse</title>
+  <meta name="description" content="Master Indian Rupee (₹) money management, analog clock reading, daily hygiene routines, and practical life skills.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .skills-nav-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .skill-tab-btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .skill-tab-btn.active {
+      background: #f59e0b;
+      color: #0f172a;
+      border-color: #fbbf24;
+      font-weight: 700;
+    }
+    .market-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 850px) {
+      .market-grid { grid-template-columns: 1fr; }
+    }
+    .market-shelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+    }
+    .item-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .item-card:hover {
+      border-color: #f59e0b;
+      transform: translateY(-2px);
+    }
+    .currency-wallet {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: #090d16;
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+    }
+    .coin-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #cbd5e1;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+    .note-btn {
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      font-weight: 800;
+      color: #fff;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+    .note-10 { background: #b45309; }
+    .note-20 { background: #d97706; }
+    .note-50 { background: #0284c7; }
+    .note-100 { background: #7c3aed; }
+    .note-200 { background: #ea580c; }
+    .note-500 { background: #64748b; }
+    .clock-canvas {
+      display: block;
+      margin: 0 auto;
+      background: #090d16;
+      border-radius: 50%;
+      border: 4px solid #334155;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link active"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 2rem;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem; background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #fbbf24;">
+        <i data-lucide="award"></i> <span>Everyday Practical Mastery</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Real-World Life Skills Hub</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px;">
+        Practice essential independence skills: manage Indian Rupee currency (₹) at the grocery store, read analog and digital clocks, and build healthy daily habits.
+      </p>
+    </div>
+
+    <!-- Skills Tabs -->
+    <div class="skills-nav-tabs">
+      <button class="skill-tab-btn active" id="tab-market" onclick="switchSkillTab('market')">
+        🛒 Indian Rupee (₹) Grocery Market
+      </button>
+      <button class="skill-tab-btn" id="tab-clock" onclick="switchSkillTab('clock')">
+        ⏰ Analog & Digital Clock Trainer
+      </button>
+      <button class="skill-tab-btn" id="tab-hygiene" onclick="switchSkillTab('hygiene')">
+        🧼 Daily Hygiene & Health Routines
+      </button>
+    </div>
+
+    <!-- 1. RUPEE GROCERY MARKET -->
+    <section id="section-market" class="sim-card">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0;">Supermarket Checkout Counter</h2>
+        <p style="color: #94a3b8; margin-top: 0.25rem;">Select groceries to add to your shopping cart, then pay using exact Rupee notes and coins.</p>
+      </div>
+
+      <div class="market-grid">
+        <!-- Store Shelf -->
+        <div>
+          <h4 style="margin-bottom: 0.75rem;">Store Items (Click to Add):</h4>
+          <div class="market-shelf" id="market-shelf">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Cash Register & Wallet -->
+        <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 0.75rem;">
+            <h4 style="margin: 0;"><i data-lucide="shopping-cart"></i> Your Cart</h4>
+            <button class="btn btn-secondary btn-sm" onclick="clearCart()"><i data-lucide="trash-2"></i> Reset Cart</button>
+          </div>
+
+          <div id="cart-items-list" style="margin: 1rem 0; min-height: 80px; max-height: 160px; overflow-y: auto;">
+            <p style="color: #94a3b8; font-style: italic;">Cart is empty. Click items on the left to add!</p>
+          </div>
+
+          <div style="font-size: 1.25rem; font-weight: 800; color: #10b981; display: flex; justify-content: space-between; border-top: 1px solid #334155; padding-top: 0.75rem;">
+            <span>Total Bill:</span>
+            <span id="bill-total">₹0</span>
+          </div>
+
+          <h5 style="margin: 1rem 0 0.5rem; font-size: 0.95rem;">Select Currency to Pay:</h5>
+          <div class="currency-wallet">
+            <button class="coin-btn" onclick="addMoney(1)">₹1</button>
+            <button class="coin-btn" onclick="addMoney(2)">₹2</button>
+            <button class="coin-btn" onclick="addMoney(5)">₹5</button>
+            <button class="coin-btn" onclick="addMoney(10)">₹10</button>
+            <button class="note-btn note-10" onclick="addMoney(10)">₹10</button>
+            <button class="note-btn note-20" onclick="addMoney(20)">₹20</button>
+            <button class="note-btn note-50" onclick="addMoney(50)">₹50</button>
+            <button class="note-btn note-100" onclick="addMoney(100)">₹100</button>
+            <button class="note-btn note-200" onclick="addMoney(200)">₹200</button>
+            <button class="note-btn note-500" onclick="addMoney(500)">₹500</button>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <span>Money Given:</span>
+            <strong id="money-given" style="font-size: 1.2rem; color: #38bdf8;">₹0</strong>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%;" onclick="checkoutMarket()"><i data-lucide="check"></i> Pay & Get Receipt</button>
+          <div id="checkout-feedback" style="margin-top: 1rem; display: none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ANALOG CLOCK TRAINER -->
+    <section id="section-clock" class="sim-card" style="display: none;">
+      <div style="margin-bottom: 1.5rem; text-align: center;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0;">Interactive Analog Clock Reader</h2>
+        <p style="color: #94a3b8; margin-top: 0.25rem;">Adjust the hour and minute sliders or drag the hands to master time telling.</p>
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+        <canvas id="analog-clock-canvas" class="clock-canvas" width="280" height="280" aria-label="Analog clock with hour and minute hands"></canvas>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div style="display: inline-block; background: #0f172a; border: 2px solid #334155; padding: 0.75rem 2rem; border-radius: 12px; font-family: monospace; font-size: 2.2rem; font-weight: 800; color: #38bdf8;" id="digital-clock-display">
+          10:15 AM
+        </div>
+      </div>
+
+      <div class="sim-controls-grid" style="max-width: 600px; margin: 0 auto 1.5rem;">
+        <div class="sim-control-group">
+          <label for="hour-slider">Hour (1 – 12): <span id="hour-val">10</span></label>
+          <input type="range" id="hour-slider" min="1" max="12" value="10" oninput="updateClockFromSliders()">
+        </div>
+        <div class="sim-control-group">
+          <label for="minute-slider">Minute (0 – 59): <span id="minute-val">15</span></label>
+          <input type="range" id="minute-slider" min="0" max="59" value="15" oninput="updateClockFromSliders()">
+        </div>
+      </div>
+
+      <!-- Time Telling Challenge -->
+      <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid #6366f1; border-radius: 12px; padding: 1.25rem; text-align: center; max-width: 600px; margin: 0 auto;">
+        <h4 style="margin: 0 0 0.5rem; color: #818cf8;">Daily Routine Challenge:</h4>
+        <p id="clock-challenge-text" style="font-size: 1.1rem; color: #f8fafc; font-weight: 600;">"School begins at 8:30 AM. Set the clock!"</p>
+        <button class="btn btn-primary btn-sm" onclick="checkClockChallenge()"><i data-lucide="check"></i> Verify Clock Setting</button>
+        <div id="clock-feedback" style="margin-top: 0.75rem; font-weight: 700;"></div>
+      </div>
+    </section>
+
+    <!-- 3. DAILY HYGIENE & HEALTH ROUTINES -->
+    <section id="section-hygiene" class="sim-card" style="display: none;">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0;">Daily Hygiene & Self-Care Checklist</h2>
+        <p style="color: #94a3b8; margin-top: 0.25rem;">Learn the proper steps for clean habits, healthy body care, and screen time balance.</p>
+      </div>
+
+      <div class="market-grid">
+        <div style="background: #1e293b; padding: 1.5rem; border-radius: 12px; border: 1px solid #334155;">
+          <h4 style="margin-bottom: 1rem;"><i data-lucide="droplet"></i> 20-Second Proper Handwashing Steps:</h4>
+          <ol style="line-height: 2; padding-left: 1.25rem; color: #cbd5e1;">
+            <li>Wet hands with clean, running water.</li>
+            <li>Apply enough soap to cover all hand surfaces.</li>
+            <li>Rub palms together in circular motions.</li>
+            <li>Rub back of each hand with fingers interlaced.</li>
+            <li>Clean thumbs and scrub under fingernails.</li>
+            <li>Rinse thoroughly with clean water.</li>
+            <li>Dry completely with a clean towel.</li>
+          </ol>
+        </div>
+
+        <div style="background: #1e293b; padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h4 style="margin-bottom: 1rem;"><i data-lucide="eye"></i> 20-20-20 Eye Strain Rule:</h4>
+            <p style="line-height: 1.6; color: #cbd5e1;">
+              Every <strong>20 minutes</strong> spent looking at a computer or phone screen, look away at an object at least <strong>20 feet</strong> away for at least <strong>20 seconds</strong>.
+            </p>
+          </div>
+          <button class="btn btn-secondary" onclick="startEyeTimer()"><i data-lucide="timer"></i> Start 20-Second Eye Relaxation Timer</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Practical Everyday Life Skills with Interactive Feedback.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/life-skills.js"></script>
+</body>
+</html>

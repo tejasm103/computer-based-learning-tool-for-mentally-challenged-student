@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Educational Stories — AccessibleVerse</title>
+  <meta name="description" content="Branching educational stories on road safety, digital citizenship, environmental care, and everyday decisions with audio narration.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .story-hero-card {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(6, 182, 212, 0.1));
+      border: 1px solid #4f46e5;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .stories-shelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .story-book-card {
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 14px;
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+    .story-book-card:hover {
+      border-color: #818cf8;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    .story-book-card.active {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .story-reader-view {
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 16px;
+      padding: 2.25rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+    .story-scene-img-box {
+      background: #090d16;
+      border-radius: 12px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #334155;
+    }
+    .story-dialogue-box {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      color: #f8fafc;
+      margin-bottom: 2rem;
+    }
+    .choice-btn-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .choice-card-btn {
+      background: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      color: #f8fafc;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s ease;
+    }
+    .choice-card-btn:hover {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.12);
+      transform: translateX(4px);
+    }
+    .narration-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link active"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 2rem;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem;">
+        <i data-lucide="compass"></i> <span>Branching Decision Adventures</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Interactive Educational Stories</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px;">
+        Choose your path! Every decision leads to unique consequences with real-world lessons in road safety, online citizenship, environment, and social problem-solving.
+      </p>
+    </div>
+
+    <!-- Story Shelf -->
+    <div class="stories-shelf" id="stories-shelf">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- Active Story Reader View -->
+    <section class="story-reader-view" id="story-reader">
+      <div class="narration-bar">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-weight: 700; color: #818cf8;" id="story-title-display">Story Title</span>
+          <span style="color: #94a3b8; font-size: 0.85rem;" id="story-scene-step">Scene 1 of 3</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="toggleNarration()" id="narration-btn">
+          <i data-lucide="volume-2"></i> Narrate Scene
+        </button>
+      </div>
+
+      <div class="story-scene-img-box" id="scene-icon">
+        🚦
+      </div>
+
+      <div class="story-dialogue-box" id="scene-text">
+        <!-- Scene dialogue and setting rendered by JS -->
+      </div>
+
+      <h3 style="font-size: 1.15rem; margin-bottom: 1rem; color: #38bdf8;">What should you do?</h3>
+      <div class="choice-btn-grid" id="choices-container">
+        <!-- Choices rendered by JS -->
+      </div>
+
+      <div id="consequence-feedback-box" style="margin-top: 1.5rem; display: none;"></div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Interactive Ethical Dilemmas & Decision Trees with Audio Narration.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/stories.js"></script>
+</body>
+</html>

@@ -357,5 +357,50 @@ window.FALLBACK_LESSONS = [
     icon: "code",
     description: "Discover computer parts, safe internet habits, and write your first HTML and Python code snippets.",
     xp: 80
+  },
+  {
+    id: "sci-solar-planets",
+    title: "Solar System Orbits & Planetary Science",
+    subject: "science",
+    level: "beginner",
+    icon: "atom",
+    description: "Explore the 8 planets, the Sun, orbital speeds, and astronomical wonders in 3D interactive simulations.",
+    xp: 75
+  },
+  {
+    id: "sci-photosynthesis-lab",
+    title: "Plant Photosynthesis & Ecosystem Energy",
+    subject: "science",
+    level: "intermediate",
+    icon: "leaf",
+    description: "Discover how leaves convert sunlight, water, and CO2 into food and life-giving oxygen.",
+    xp: 70
+  },
+  {
+    id: "cyber-safe-browsing",
+    title: "Cybersecurity Fortress: Phishing & Passwords",
+    subject: "cybersecurity",
+    level: "intermediate",
+    icon: "shield-alert",
+    description: "Learn to spot scam emails, create unbreakable passwords, and protect your identity online.",
+    xp: 85
+  },
+  {
+    id: "life-rupee-money",
+    title: "Indian Rupee (₹) Money & Grocery Shopping",
+    subject: "life_skills",
+    level: "beginner",
+    icon: "wallet",
+    description: "Count coins and notes, calculate grocery bills, and practice exact change at the supermarket.",
+    xp: 65
+  },
+  {
+    id: "life-clock-reading",
+    title: "Analog Clock Time Reading & Daily Schedules",
+    subject: "life_skills",
+    level: "beginner",
+    icon: "clock",
+    description: "Learn to read hour and minute hands, 12-hour AM/PM cycles, and plan balanced daily routines.",
+    xp: 60
   }
 ];

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Coding Playground — AccessibleVerse</title>
+  <meta name="description" content="Learn beginner programming with HTML, CSS, JavaScript, and Python in a secure, interactive coding playground with live preview and test cases.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .playground-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      min-height: 580px;
+    }
+    @media (max-width: 900px) {
+      .playground-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    .editor-pane {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .editor-header {
+      background: #1e293b;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .lang-tabs {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .lang-tab {
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #94a3b8;
+    }
+    .lang-tab.active {
+      background: #0f172a;
+      color: #38bdf8;
+      border-color: #334155;
+    }
+    .code-textarea {
+      flex: 1;
+      width: 100%;
+      min-height: 340px;
+      padding: 1rem;
+      background: #090d16;
+      color: #f8fafc;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border: none;
+      resize: vertical;
+      outline: none;
+    }
+    .preview-pane {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .preview-iframe {
+      flex: 1;
+      width: 100%;
+      min-height: 340px;
+      background: #ffffff;
+      border: none;
+    }
+    .console-output {
+      background: #090d16;
+      border-top: 1px solid #334155;
+      padding: 0.75rem 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      max-height: 160px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .challenge-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .challenge-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .challenge-card:hover {
+      border-color: #818cf8;
+      transform: translateY(-2px);
+    }
+    .challenge-card.active {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .test-cases-box {
+      margin-top: 1.5rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link active"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 1.5rem;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem;">
+        <i data-lucide="terminal"></i> <span>Beginner Coding Sandbox</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Interactive Coding Playground</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px;">
+        Write, edit, and run HTML, CSS, JavaScript, and Python code in a safe sandbox. Inspect live outputs, solve debugging challenges, and verify your automated tests!
+      </p>
+    </div>
+
+    <!-- Beginner Exercises Bar -->
+    <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Select a Guided Exercise:</h3>
+    <div class="challenge-selector-grid" id="exercises-bar">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- Playground Workspace -->
+    <div class="playground-container">
+      <!-- Editor Column -->
+      <div class="editor-pane">
+        <div class="editor-header">
+          <div class="lang-tabs" role="tablist">
+            <button class="lang-tab active" id="tab-html" onclick="switchLanguage('html')">HTML</button>
+            <button class="lang-tab" id="tab-css" onclick="switchLanguage('css')">CSS</button>
+            <button class="lang-tab" id="tab-js" onclick="switchLanguage('js')">JavaScript</button>
+            <button class="lang-tab" id="tab-python" onclick="switchLanguage('python')">Python (Isolated)</button>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" onclick="showChallengeHint()" title="Get a hint from Sparky"><i data-lucide="help-circle"></i> Hint</button>
+            <button class="btn btn-primary btn-sm" onclick="runCode()"><i data-lucide="play"></i> Run Code</button>
+          </div>
+        </div>
+
+        <textarea id="code-editor" class="code-textarea" spellcheck="false" aria-label="Code editor input" placeholder="Write your code here..."></textarea>
+      </div>
+
+      <!-- Preview Column -->
+      <div class="preview-pane">
+        <div class="editor-header">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #94a3b8;"><i data-lucide="monitor"></i> Live Preview & Console Output</span>
+          <button class="btn btn-secondary btn-sm" onclick="clearConsole()"><i data-lucide="trash-2"></i> Clear Output</button>
+        </div>
+
+        <iframe id="preview-frame" class="preview-iframe" sandbox="allow-scripts allow-modals" title="Live Preview Output"></iframe>
+
+        <div class="console-output" id="console-output" aria-live="polite">
+          System Ready. Click "Run Code" to execute.
+        </div>
+      </div>
+    </div>
+
+    <!-- Automated Test Cases -->
+    <div class="test-cases-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h4 style="margin: 0; font-size: 1.1rem;"><i data-lucide="check-circle-2"></i> Exercise Test Cases</h4>
+        <button class="btn btn-primary btn-sm" onclick="runTestCases()"><i data-lucide="play"></i> Verify Solution</button>
+      </div>
+      <div id="test-results-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Isolated Web Worker Sandbox • Secure Client Execution.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/coding.js"></script>
+</body>
+</html>

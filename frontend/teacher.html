@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher & Guardian Dashboard — AccessibleVerse</title>
+  <meta name="description" content="Manage classrooms, assign lessons and activities, monitor student learning progress, and provide educational feedback.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .teacher-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .teacher-grid { grid-template-columns: 1fr; }
+    }
+    .classroom-card {
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .classroom-card:hover {
+      border-color: #818cf8;
+    }
+    .classroom-card.active {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .join-code-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px dashed #6366f1;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-family: monospace;
+      font-weight: 800;
+      color: #818cf8;
+      font-size: 0.95rem;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .data-table th, .data-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #334155;
+    }
+    .data-table th {
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 2rem;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem;">
+        <i data-lucide="graduation-cap"></i> <span>Educator & Guardian Portal</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Teacher & Classroom Management</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px;">
+        Empower learners with customized lesson assignments, track individual milestone progress, and provide encouraging feedback.
+      </p>
+    </div>
+
+    <!-- Student / Guardian Join Classroom Banner -->
+    <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid #6366f1; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <strong style="color: #818cf8; font-size: 1.1rem;">Are you a Student or Guardian?</strong>
+        <p style="margin: 0.25rem 0 0; color: #cbd5e1; font-size: 0.9rem;">Join your teacher's classroom using your 6-character code (e.g. AV-9842).</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <input type="text" id="join-code-input" placeholder="e.g. AV-9842" style="padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-family: monospace; text-transform: uppercase;">
+        <button class="btn btn-primary btn-sm" onclick="joinClassroomWithCode()"><i data-lucide="user-plus"></i> Join Class</button>
+      </div>
+    </div>
+
+    <!-- Teacher Grid: Left Sidebar (Classrooms) & Right Main (Roster / Assignments) -->
+    <div class="teacher-grid">
+      <!-- Left Column: Classrooms -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="margin: 0; font-size: 1.25rem;">My Classrooms</h3>
+          <button class="btn btn-primary btn-sm" onclick="showCreateClassModal()"><i data-lucide="plus"></i> New Class</button>
+        </div>
+
+        <div id="classrooms-list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Right Column: Selected Classroom Details -->
+      <div>
+        <div class="sim-card" id="classroom-details-card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid #334155; padding-bottom: 1rem; margin-bottom: 1rem;">
+            <div>
+              <h2 id="active-class-name" style="margin: 0; font-size: 1.6rem;">Classroom Name</h2>
+              <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;" id="active-class-sub">Subject • Grade 4</div>
+            </div>
+            <div>
+              <span class="join-code-pill" id="active-join-code"><i data-lucide="key"></i> Join Code: AV-XXXX</span>
+            </div>
+          </div>
+
+          <!-- Actions: Assign Lessons -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h4 style="margin: 0;"><i data-lucide="calendar"></i> Classroom Assignments</h4>
+            <button class="btn btn-secondary btn-sm" onclick="showCreateAssignmentModal()"><i data-lucide="plus"></i> Add Assignment</button>
+          </div>
+
+          <div id="assignments-list" style="margin-bottom: 2rem;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Student Progress Roster -->
+          <h4 style="margin: 0 0 0.5rem;"><i data-lucide="users"></i> Student Roster & Completion Progress</h4>
+          <div style="overflow-x: auto;">
+            <table class="data-table" aria-label="Student progress roster">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Completed Lessons</th>
+                  <th>Total XP</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="student-roster-body">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Create Classroom Modal -->
+  <dialog id="modal-create-class" style="border: 1px solid #334155; background: #1e293b; color: #fff; border-radius: 14px; padding: 2rem; max-width: 450px; width: 90%;">
+    <h3 style="margin-top: 0;">Create New Classroom</h3>
+    <form onsubmit="handleCreateClass(event)">
+      <div style="margin-bottom: 1rem;">
+        <label for="new-class-name" style="display: block; margin-bottom: 0.35rem; font-size: 0.85rem; color: #94a3b8;">Classroom Name:</label>
+        <input type="text" id="new-class-name" required placeholder="e.g. 5th Grade Science & Math" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff;">
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <label for="new-class-subject" style="display: block; margin-bottom: 0.35rem; font-size: 0.85rem; color: #94a3b8;">Primary Subject:</label>
+        <select id="new-class-subject" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff;">
+          <option value="science">Science Explorer</option>
+          <option value="mathematics">Mathematics</option>
+          <option value="kannada">Kannada & Hindi Languages</option>
+          <option value="technology">Coding & Cybersecurity</option>
+          <option value="life_skills">Everyday Life Skills</option>
+        </select>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('modal-create-class').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm">Create Class</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Classroom Management & Educational Progress Tracking.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>

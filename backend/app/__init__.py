@@ -97,6 +97,11 @@ def create_app():
     from app.routes.quiz_routes import quiz_bp
     from app.routes.game_routes import game_bp
     from app.routes.progress_routes import progress_bp
+    from app.routes.ai_routes import ai_bp
+    from app.routes.classroom_routes import classroom_bp
+    from app.routes.practice_routes import practice_bp
+    from app.routes.portfolio_routes import portfolio_bp
+    from app.routes.learning_path_routes import learning_path_bp
     
     app.register_blueprint(health_bp, url_prefix="/api")
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
@@ -105,6 +110,11 @@ def create_app():
     app.register_blueprint(quiz_bp, url_prefix="/api/quizzes")
     app.register_blueprint(game_bp, url_prefix="/api/games")
     app.register_blueprint(progress_bp, url_prefix="/api/progress")
+    app.register_blueprint(ai_bp, url_prefix="/api/ai")
+    app.register_blueprint(classroom_bp, url_prefix="/api/classrooms")
+    app.register_blueprint(practice_bp, url_prefix="/api/practice")
+    app.register_blueprint(portfolio_bp, url_prefix="/api/portfolio")
+    app.register_blueprint(learning_path_bp, url_prefix="/api/learning-path")
     
     @app.route("/")
     def index():

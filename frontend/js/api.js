@@ -359,6 +359,271 @@ class ApiClient {
       };
     }
   };
+
+  // AI Learning Assistant & Quiz Generator Module
+  ai = {
+    explain: async (payload) => {
+      const res = await this.request('/api/ai/explain', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      if (res.success) return res.data;
+      return {
+        success: true,
+        topic: payload.topic,
+        language: payload.language || 'en',
+        explanation: `Exploring ${payload.topic || 'this concept'} step-by-step: observe real-world examples, practice one step at a time, and test yourself!`,
+        hint: 'Break complex ideas into bite-sized everyday connections.',
+        example: 'Think about where you see this concept in your daily life.',
+        practice_question: `Can you explain one key part of ${payload.topic || 'this topic'}?`,
+        isOffline: true
+      };
+    },
+
+    generateQuiz: async (payload) => {
+      const res = await this.request('/api/ai/quiz-generate', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      return res.success ? res.data : null;
+    },
+
+    getRecommendations: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/ai/recommend', {
+        method: 'POST',
+        body: JSON.stringify({ user_id: user ? user.id : 'guest' })
+      });
+      return res.success ? res.data : null;
+    }
+  };
+
+  // Teacher & Guardian Classrooms Module
+  classrooms = {
+    create: async (classroomData) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/classrooms', {
+        method: 'POST',
+        body: JSON.stringify({ ...classroomData, teacher_id: user ? user.id : 'teacher_1' })
+      });
+      return res.success ? res.data : { success: false, error: res.error };
+    },
+
+    getByTeacher: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/classrooms/teacher?teacher_id=${user ? user.id : 'teacher_1'}`, { method: 'GET' });
+      return res.success ? res.data.classrooms : [];
+    },
+
+    join: async (code) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/classrooms/join', {
+        method: 'POST',
+        body: JSON.stringify({ code, student_id: user ? user.id : 'guest' })
+      });
+      return res.success ? res.data : { success: false, error: res.error };
+    },
+
+    getByStudent: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/classrooms/student?student_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data.classrooms : [];
+    },
+
+    createAssignment: async (classroomId, assignmentData) => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/classrooms/${classroomId}/assignments`, {
+        method: 'POST',
+        body: JSON.stringify({ ...assignmentData, teacher_id: user ? user.id : 'teacher_1' })
+      });
+      return res.success ? res.data : { success: false, error: res.error };
+    },
+
+    getAssignments: async (classroomId) => {
+      const res = await this.request(`/api/classrooms/${classroomId}/assignments`, { method: 'GET' });
+      return res.success ? res.data.assignments : [];
+    },
+
+    submitAssignment: async (assignmentId, data) => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/classrooms/assignments/${assignmentId}/submit`, {
+        method: 'POST',
+        body: JSON.stringify({ ...data, student_id: user ? user.id : 'guest' })
+      });
+      return res.success ? res.data : { success: false };
+    },
+
+    giveFeedback: async (assignmentId, data) => {
+      const res = await this.request(`/api/classrooms/assignments/${assignmentId}/feedback`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      return res.success ? res.data : { success: false };
+    }
+  };
+
+  // Mistake Review & Practice Module
+  practice = {
+    recordMistake: async (mistakeData) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/practice/mistakes', {
+        method: 'POST',
+        body: JSON.stringify({ ...mistakeData, user_id: user ? user.id : 'guest' })
+      });
+      // Also cache locally for offline review
+      const localKey = 'accessibleverse_offline_mistakes';
+      try {
+        const stored = JSON.parse(localStorage.getItem(localKey) || '[]');
+        stored.push({ ...mistakeData, id: 'loc_' + Date.now(), resolved: False });
+        localStorage.setItem(localKey, JSON.stringify(stored));
+      } catch {}
+      return res.success ? res.data : { success: true, isLocal: true };
+    },
+
+    getMistakes: async (resolved = false) => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/practice/mistakes?user_id=${user ? user.id : 'guest'}&resolved=${resolved}`, { method: 'GET' });
+      if (res.success) return res.data.mistakes;
+      try {
+        const stored = JSON.parse(localStorage.getItem('accessibleverse_offline_mistakes') || '[]');
+        return stored.filter(m => !m.resolved);
+      } catch {
+        return [];
+      }
+    },
+
+    resolveMistake: async (mistakeId) => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/practice/mistakes/${mistakeId}/resolve`, {
+        method: 'POST',
+        body: JSON.stringify({ user_id: user ? user.id : 'guest' })
+      });
+      try {
+        const stored = JSON.parse(localStorage.getItem('accessibleverse_offline_mistakes') || '[]');
+        const updated = stored.map(m => (m.id === mistakeId ? { ...m, resolved: true } : m));
+        localStorage.setItem('accessibleverse_offline_mistakes', JSON.stringify(updated));
+      } catch {}
+      return res.success ? res.data : { success: true };
+    },
+
+    getTargetedPractice: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/practice/targeted?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data.revision_items : [];
+    },
+
+    getPronunciationWords: async (language = 'all') => {
+      const res = await this.request(`/api/practice/pronunciation?language=${language}`, { method: 'GET' });
+      return res.success ? (res.data.words || res.data.bank) : null;
+    }
+  };
+
+  // Student Portfolio & Certificates Module
+  portfolio = {
+    get: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/portfolio?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      if (res.success) return res.data;
+      return {
+        portfolio: { bio: 'Lifelong Explorer on AccessibleVerse', items: [] },
+        certificates: []
+      };
+    },
+
+    addItem: async (itemData) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/portfolio/items', {
+        method: 'POST',
+        body: JSON.stringify({ ...itemData, user_id: user ? user.id : 'guest' })
+      });
+      return res.success ? res.data.item : itemData;
+    },
+
+    issueCertificate: async (courseId, courseTitle, studentName) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/portfolio/certificates/issue', {
+        method: 'POST',
+        body: JSON.stringify({
+          user_id: user ? user.id : 'guest',
+          course_id: courseId,
+          course_title: courseTitle,
+          student_name: studentName || (user ? (user.full_name || user.username) : 'Explorer')
+        })
+      });
+      return res.success ? res.data.certificate : null;
+    },
+
+    getCertificates: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/portfolio/certificates?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data.certificates : [];
+    },
+
+    verifyCertificate: async (certId) => {
+      const res = await this.request(`/api/portfolio/certificates/verify/${certId}`, { method: 'GET' });
+      return res.success ? res.data : { valid: false };
+    }
+  };
+
+  // Personalized Learning Path, Smart Calendar & Sync Module
+  learningPath = {
+    get: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/learning-path?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data : null;
+    },
+
+    getMissions: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/learning-path/missions?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data.data : null;
+    },
+
+    updateMissionProgress: async (type, count = 1) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/learning-path/missions/progress', {
+        method: 'POST',
+        body: JSON.stringify({ user_id: user ? user.id : 'guest', type, count })
+      });
+      return res.success ? res.data.data : null;
+    },
+
+    getCalendar: async () => {
+      const user = this.getCachedUser();
+      const res = await this.request(`/api/learning-path/calendar?user_id=${user ? user.id : 'guest'}`, { method: 'GET' });
+      return res.success ? res.data.events : [];
+    },
+
+    saveCalendarEvent: async (eventData) => {
+      const user = this.getCachedUser();
+      const res = await this.request('/api/learning-path/calendar', {
+        method: 'POST',
+        body: JSON.stringify({ ...eventData, user_id: user ? user.id : 'guest' })
+      });
+      return res.success ? res.data.event : eventData;
+    },
+
+    syncProgress: async () => {
+      const user = this.getCachedUser();
+      if (!user) return { success: false, error: 'No user to sync' };
+
+      const res = await this.request('/api/learning-path/sync', {
+        method: 'POST',
+        body: JSON.stringify({
+          user_id: user.id,
+          progress_data: {
+            completed_lessons: user.completed_lessons || [],
+            achievements: user.achievements || [],
+            accessibility_settings: user.accessibility_settings || {}
+          }
+        })
+      });
+      if (res.success && res.data.user) {
+        this.setCachedUser(res.data.user);
+      }
+      return res.success ? res.data : { success: false };
+    }
+  };
 }
 
 // Global Export

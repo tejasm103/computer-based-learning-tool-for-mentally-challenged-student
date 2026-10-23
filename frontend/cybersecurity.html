@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Escape Room — AccessibleVerse</title>
+  <meta name="description" content="Crack cybersecurity puzzles, spot phishing threats, construct unbreakable passwords, and escape the digital hacker labyrinth.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .escape-progress-bar {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .escape-progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--border-color, #334155);
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+    .escape-step {
+      position: relative;
+      z-index: 2;
+      background: var(--card-bg, #1e293b);
+      border: 2px solid var(--border-color, #334155);
+      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted, #94a3b8);
+      transition: all 0.3s ease;
+    }
+    .escape-step.active {
+      border-color: #ef4444;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+    .escape-step.completed {
+      border-color: #10b981;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .chamber-card {
+      background: #0f172a;
+      border: 2px solid #ef4444;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+      margin-bottom: 2rem;
+    }
+    .inbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .email-item {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .email-item:hover {
+      border-color: #818cf8;
+    }
+    .email-item.selected {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+    .password-meter {
+      height: 10px;
+      border-radius: 5px;
+      background: #334155;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .password-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link active"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 2rem; text-align: center;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem; background: rgba(239, 68, 68, 0.15); border-color: #ef4444; color: #f87171;">
+        <i data-lucide="shield-alert"></i> <span>Mission Protocol Active</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Cybersecurity Escape Room</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px; margin: 0 auto;">
+        You are locked inside a cyber-criminal's server mainframe! Solve all 4 digital security chambers to neutralize the threat and earn the <strong>Cyber Defender Shield</strong>.
+      </p>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="escape-progress-bar" aria-label="Escape Room Chambers">
+      <div class="escape-step active" id="step-chamber-1"><i data-lucide="mail"></i> 1. Phishing Inbox</div>
+      <div class="escape-step" id="step-chamber-2"><i data-lucide="key"></i> 2. Password Vault</div>
+      <div class="escape-step" id="step-chamber-3"><i data-lucide="wifi"></i> 3. Wi-Fi & SSL</div>
+      <div class="escape-step" id="step-chamber-4"><i data-lucide="user-x"></i> 4. Privacy Shield</div>
+    </div>
+
+    <!-- Chamber 1: Phishing Detector -->
+    <section id="chamber-1" class="chamber-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <span style="color: #ef4444; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Chamber 1 of 4</span>
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin: 0.25rem 0 0;">The Suspicious Inbox</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="getChamberHint(1)"><i data-lucide="help-circle"></i> Clue</button>
+      </div>
+
+      <p style="color: var(--text-muted, #94a3b8);">
+        A rogue hacker sent 3 emails to your student email account. Two are malicious <strong>phishing scams</strong> and one is a legitimate message from your school.
+        <strong>Click and identify the REAL SAFE email:</strong>
+      </p>
+
+      <div class="inbox-list" id="phishing-inbox">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div id="chamber-1-feedback" style="margin-top: 1.25rem; display: none;"></div>
+    </section>
+
+    <!-- Chamber 2: Password Vault -->
+    <section id="chamber-2" class="chamber-card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <span style="color: #ef4444; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Chamber 2 of 4</span>
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin: 0.25rem 0 0;">The Master Vault Cipher</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="getChamberHint(2)"><i data-lucide="help-circle"></i> Clue</button>
+      </div>
+
+      <p style="color: var(--text-muted, #94a3b8);">
+        The mainframe door requires a super-strong passphrase. Weak passwords like <em>password123</em> or <em>qwerty</em> can be brute-forced in 0.001 seconds!
+        Construct a strong password with at least <strong>12 characters</strong>, uppercase, lowercase, numbers, and symbols.
+      </p>
+
+      <div style="background: #1e293b; padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+        <label for="vault-password-input" style="font-weight: 700; display: block; margin-bottom: 0.5rem;">Enter Vault Passphrase:</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="vault-password-input" placeholder="e.g. Tiger#Solar$9821" oninput="testPasswordStrength(this.value)" style="flex: 1; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 1.1rem; font-family: monospace;">
+          <button class="btn btn-primary" onclick="submitPasswordChamber()"><i data-lucide="unlock"></i> Unlock Vault</button>
+        </div>
+
+        <div class="password-meter"><div id="pass-meter-fill" class="password-fill"></div></div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8;">
+          <span id="pass-strength-label">Strength: Too Weak</span>
+          <span id="pass-crack-time">Estimated Crack Time: Instant</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; margin-top: 1rem; font-size: 0.85rem;">
+          <span id="rule-len" style="color: #ef4444;">❌ 12+ Characters</span>
+          <span id="rule-upper" style="color: #ef4444;">❌ Uppercase Letter (A-Z)</span>
+          <span id="rule-lower" style="color: #ef4444;">❌ Lowercase Letter (a-z)</span>
+          <span id="rule-num" style="color: #ef4444;">❌ Number (0-9)</span>
+          <span id="rule-sym" style="color: #ef4444;">❌ Special Symbol (!@#$)</span>
+        </div>
+      </div>
+
+      <div id="chamber-2-feedback" style="margin-top: 1.25rem; display: none;"></div>
+    </section>
+
+    <!-- Chamber 3: Public Wi-Fi & Encryption -->
+    <section id="chamber-3" class="chamber-card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <span style="color: #ef4444; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Chamber 3 of 4</span>
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin: 0.25rem 0 0;">Public Wi-Fi & Secure Browsing</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="getChamberHint(3)"><i data-lucide="help-circle"></i> Clue</button>
+      </div>
+
+      <p style="color: var(--text-muted, #94a3b8);">
+        You are at an airport cafe. Three available Wi-Fi access points appear on your device screen.
+        One is an open hacker "Evil Twin" honeypot, one lacks encryption (HTTP), and one uses safe WPA3 with HTTPS.
+        <strong>Select the secure network and toggle the protective VPN:</strong>
+      </p>
+
+      <div class="inbox-list" id="wifi-networks-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div style="margin-top: 1.5rem; background: #1e293b; padding: 1.25rem; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <strong style="display: block;">Virtual Private Network (VPN) Shield:</strong>
+          <small style="color: #94a3b8;">Encrypts all outbound network traffic from packet sniffers.</small>
+        </div>
+        <button class="btn btn-secondary" id="vpn-toggle-btn" onclick="toggleVpn()"><i data-lucide="shield-off"></i> VPN: OFF</button>
+      </div>
+
+      <button class="btn btn-primary btn-lg" style="margin-top: 1.5rem; width: 100%;" onclick="submitWifiChamber()"><i data-lucide="arrow-right"></i> Verify Safe Connection</button>
+      <div id="chamber-3-feedback" style="margin-top: 1.25rem; display: none;"></div>
+    </section>
+
+    <!-- Chamber 4: Privacy Shield & Oversharing -->
+    <section id="chamber-4" class="chamber-card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <span style="color: #ef4444; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Chamber 4 of 4</span>
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin: 0.25rem 0 0;">Social Media Privacy Inspector</h2>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="getChamberHint(4)"><i data-lucide="help-circle"></i> Clue</button>
+      </div>
+
+      <p style="color: var(--text-muted, #94a3b8);">
+        A classmate posted photos and status updates online. <strong>Click and flag all UNSAFE private details</strong> that identity thieves could exploit:
+      </p>
+
+      <div class="inbox-list" id="social-posts-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <button class="btn btn-primary btn-lg" style="margin-top: 1.5rem; width: 100%;" onclick="submitPrivacyChamber()"><i data-lucide="check-circle-2"></i> Finalize Security Audit</button>
+      <div id="chamber-4-feedback" style="margin-top: 1.25rem; display: none;"></div>
+    </section>
+
+    <!-- Escape Complete Victory Screen -->
+    <section id="escape-victory" class="chamber-card" style="display: none; text-align: center; border-color: #10b981; box-shadow: 0 10px 35px rgba(16, 185, 129, 0.2);">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">🛡️🎉</div>
+      <h2 style="font-size: 2.25rem; font-weight: 800; color: #10b981;">Mainframe Hack Neutralized!</h2>
+      <p style="color: #e2e8f0; font-size: 1.2rem; max-width: 650px; margin: 0.5rem auto 1.5rem;">
+        Congratulations, Cyber Agent! You successfully detected phishing emails, fortified the vault with cryptographic entropy, protected Wi-Fi packets, and shielded private identity data.
+      </p>
+
+      <div style="display: inline-flex; align-items: center; gap: 0.75rem; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 700; color: #10b981; margin-bottom: 2rem;">
+        <i data-lucide="award"></i> Awarded: +50 XP & "Cyber Defender" Achievement
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="portfolio.html" class="btn btn-primary"><i data-lucide="award"></i> View My Portfolio Badge</a>
+        <a href="lessons.html?subject=technology" class="btn btn-secondary"><i data-lucide="book-open"></i> Explore Coding Lessons</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Cybersecurity Simulator & Safe Browsing Training.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/cybersecurity.js"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Science Explorer — AccessibleVerse</title>
+  <meta name="description" content="Explore planets, the solar system, plant ecosystems, weather cycles, and basic physics with interactive simulations.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .science-tabs {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .science-tab-btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-color, #334155);
+      background: var(--card-bg, #1e293b);
+      color: var(--text-color, #f8fafc);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .science-tab-btn.active {
+      background: var(--accent-indigo, #6366f1);
+      color: #fff;
+      border-color: #818cf8;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+    .sim-card {
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+    .sim-canvas-wrap {
+      position: relative;
+      background: #090d16;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .sim-canvas {
+      width: 100%;
+      height: 380px;
+      display: block;
+    }
+    .sim-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 1.25rem;
+      border-radius: 12px;
+    }
+    .sim-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .sim-control-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted, #94a3b8);
+      display: flex;
+      justify-content: space-between;
+    }
+    .sim-control-group input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent-indigo, #6366f1);
+      cursor: pointer;
+    }
+    .planet-btn-strip {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .planet-chip {
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .planet-chip:hover, .planet-chip.active {
+      background: var(--accent-indigo, #6366f1);
+      border-color: #818cf8;
+    }
+    .sim-info-box {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--accent-indigo, #6366f1);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    .output-gauge {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .gauge-bar {
+      flex: 1;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      width: 50%;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Global Header -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="AccessibleVerse Home">
+        <div class="brand-cube" aria-hidden="true"><i data-lucide="box"></i></div>
+        <span>Accessible<span class="highlight">Verse</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="index.html" class="nav-link"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="lessons.html" class="nav-link"><i data-lucide="book-open"></i> Lessons</a></li>
+          <li><a href="science.html" class="nav-link active"><i data-lucide="atom"></i> Science</a></li>
+          <li><a href="coding.html" class="nav-link"><i data-lucide="code-2"></i> Coding</a></li>
+          <li><a href="cybersecurity.html" class="nav-link"><i data-lucide="shield-alert"></i> Cyber</a></li>
+          <li><a href="life-skills.html" class="nav-link"><i data-lucide="sparkles"></i> Life Skills</a></li>
+          <li><a href="stories.html" class="nav-link"><i data-lucide="book-marked"></i> Stories</a></li>
+          <li><a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-picker-group" role="group" aria-label="Language selection" style="display: flex; gap: 0.3rem;">
+          <button class="btn btn-sm btn-secondary lang-btn active" data-lang="en">EN</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="kn">ಕನ್ನಡ</button>
+          <button class="btn btn-sm btn-secondary lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+        <div class="nav-auth-slot">
+          <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="page-header" style="margin-bottom: 2rem;">
+      <div class="hero-pill" style="display: inline-flex; margin-bottom: 0.5rem;">
+        <i data-lucide="telescope"></i> <span>Interactive Science Universe</span>
+      </div>
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Science Explorer & Simulation Labs</h1>
+      <p style="color: var(--text-muted, #94a3b8); font-size: 1.1rem; max-width: 750px;">
+        Hands-on scientific discovery with real-time simulations. Explore planets, run photosynthesis experiments, control weather systems, and investigate physics laws.
+      </p>
+    </div>
+
+    <!-- Science Navigation Tabs -->
+    <div class="science-tabs" role="tablist" aria-label="Science Simulations">
+      <button class="science-tab-btn active" id="tab-solar" role="tab" aria-selected="true" aria-controls="panel-solar" onclick="switchScienceTab('solar')">
+        🪐 Solar System & Planets
+      </button>
+      <button class="science-tab-btn" id="tab-photosynthesis" role="tab" aria-selected="false" aria-controls="panel-photosynthesis" onclick="switchScienceTab('photosynthesis')">
+        🌱 Photosynthesis & Plant Lab
+      </button>
+      <button class="science-tab-btn" id="tab-weather" role="tab" aria-selected="false" aria-controls="panel-weather" onclick="switchScienceTab('weather')">
+        🌧️ Weather & Water Cycle
+      </button>
+      <button class="science-tab-btn" id="tab-physics" role="tab" aria-selected="false" aria-controls="panel-physics" onclick="switchScienceTab('physics')">
+        ⚖️ Pendulum & Gravity Lab
+      </button>
+    </div>
+
+    <!-- 1. SOLAR SYSTEM SIMULATION -->
+    <section id="panel-solar" class="sim-card" role="tabpanel" aria-labelledby="tab-solar">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Solar System Orbital Simulator</h2>
+          <p style="color: var(--text-muted, #94a3b8); margin-top: 0.25rem;">Observe real planetary orbits around the Sun. Click any planet to learn its secrets.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="speakCurrentPlanet()">
+          <i data-lucide="volume-2"></i> Read Planet Facts
+        </button>
+      </div>
+
+      <div class="planet-btn-strip" id="planet-selector-bar">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="sim-canvas-wrap">
+        <canvas id="solar-canvas" class="sim-canvas" width="900" height="380" aria-label="Solar System canvas displaying Sun and rotating planets"></canvas>
+      </div>
+
+      <div class="sim-controls-grid">
+        <div class="sim-control-group">
+          <label for="solar-speed">Orbit Speed: <span id="speed-val">1.0x</span></label>
+          <input type="range" id="solar-speed" min="0" max="4" step="0.2" value="1.0" oninput="setSolarSpeed(this.value)">
+        </div>
+        <div class="sim-control-group">
+          <label for="solar-trail">Show Orbit Paths</label>
+          <input type="checkbox" id="solar-trail" checked onchange="toggleOrbitTrails(this.checked)" style="width: 20px; height: 20px; accent-color: #6366f1;">
+        </div>
+        <div class="sim-control-group" style="justify-content: flex-end;">
+          <button class="btn btn-primary btn-sm" onclick="resetSolarView()">
+            <i data-lucide="rotate-ccw"></i> Reset Simulation
+          </button>
+        </div>
+      </div>
+
+      <div class="sim-info-box" id="planet-info-box">
+        <!-- Planet facts updated dynamically -->
+      </div>
+    </section>
+
+    <!-- 2. PHOTOSYNTHESIS LAB -->
+    <section id="panel-photosynthesis" class="sim-card" role="tabpanel" aria-labelledby="tab-photosynthesis" style="display: none;">
+      <div style="margin-bottom: 1rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Plant Photosynthesis & Respiration Lab</h2>
+        <p style="color: var(--text-muted, #94a3b8); margin-top: 0.25rem;">Adjust sunlight, water, and carbon dioxide to see how plants generate oxygen and food.</p>
+      </div>
+
+      <div class="sim-canvas-wrap">
+        <canvas id="plant-canvas" class="sim-canvas" width="900" height="380" aria-label="Interactive plant canvas reacting to sunlight and water"></canvas>
+      </div>
+
+      <div class="sim-controls-grid">
+        <div class="sim-control-group">
+          <label for="sunlight-slider">Sunlight Intensity: <span id="sunlight-val">70%</span></label>
+          <input type="range" id="sunlight-slider" min="0" max="100" value="70" oninput="updatePlantLab()">
+        </div>
+        <div class="sim-control-group">
+          <label for="water-slider">Water Supply: <span id="water-val">60%</span></label>
+          <input type="range" id="water-slider" min="0" max="100" value="60" oninput="updatePlantLab()">
+        </div>
+        <div class="sim-control-group">
+          <label for="co2-slider">Carbon Dioxide (CO₂): <span id="co2-val">50%</span></label>
+          <input type="range" id="co2-slider" min="0" max="100" value="50" oninput="updatePlantLab()">
+        </div>
+      </div>
+
+      <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: 12px; margin-bottom: 1rem;">
+        <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">Production Rates:</h4>
+        <div class="output-gauge">
+          <span style="min-width: 130px; font-weight: 600;">Oxygen (O₂):</span>
+          <div class="gauge-bar"><div id="oxygen-gauge" class="gauge-fill" style="width: 65%;"></div></div>
+          <span id="oxygen-val" style="min-width: 45px; font-weight: 700;">65%</span>
+        </div>
+        <div class="output-gauge">
+          <span style="min-width: 130px; font-weight: 600;">Glucose (Sugar):</span>
+          <div class="gauge-bar"><div id="glucose-gauge" class="gauge-fill" style="width: 60%; background: linear-gradient(90deg, #f59e0b, #10b981);"></div></div>
+          <span id="glucose-val" style="min-width: 45px; font-weight: 700;">60%</span>
+        </div>
+      </div>
+
+      <div class="sim-info-box">
+        <strong>Scientific Formula:</strong> 6CO₂ + 6H₂O + Sunlight ➔ C₆H₁₂O₆ (Glucose) + 6O₂ (Oxygen).
+        <p style="margin-top: 0.5rem; margin-bottom: 0;">Leaves contain a green pigment called <strong>chlorophyll</strong> that captures sunlight energy to transform water from the soil and carbon dioxide from the air into food!</p>
+      </div>
+    </section>
+
+    <!-- 3. WEATHER & WATER CYCLE -->
+    <section id="panel-weather" class="sim-card" role="tabpanel" aria-labelledby="tab-weather" style="display: none;">
+      <div style="margin-bottom: 1rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Weather Machine & Water Cycle Explorer</h2>
+        <p style="color: var(--text-muted, #94a3b8); margin-top: 0.25rem;">Control temperature and humidity to trigger evaporation, cloud formation, rain, or snow.</p>
+      </div>
+
+      <div class="sim-canvas-wrap">
+        <canvas id="weather-canvas" class="sim-canvas" width="900" height="380" aria-label="Dynamic landscape demonstrating weather patterns"></canvas>
+      </div>
+
+      <div class="sim-controls-grid">
+        <div class="sim-control-group">
+          <label for="temp-slider">Temperature: <span id="temp-val">22°C</span></label>
+          <input type="range" id="temp-slider" min="-10" max="45" value="22" oninput="updateWeatherLab()">
+        </div>
+        <div class="sim-control-group">
+          <label for="humidity-slider">Atmospheric Humidity: <span id="humidity-val">65%</span></label>
+          <input type="range" id="humidity-slider" min="10" max="100" value="65" oninput="updateWeatherLab()">
+        </div>
+        <div class="sim-control-group">
+          <label for="wind-slider">Wind Speed: <span id="wind-val">15 km/h</span></label>
+          <input type="range" id="wind-slider" min="0" max="60" value="15" oninput="updateWeatherLab()">
+        </div>
+      </div>
+
+      <div class="sim-info-box" id="weather-status-box">
+        <!-- Status updated dynamically -->
+      </div>
+    </section>
+
+    <!-- 4. PENDULUM & GRAVITY LAB -->
+    <section id="panel-physics" class="sim-card" role="tabpanel" aria-labelledby="tab-physics" style="display: none;">
+      <div style="margin-bottom: 1rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Pendulum & Gravity Lab</h2>
+        <p style="color: var(--text-muted, #94a3b8); margin-top: 0.25rem;">Discover how gravity and string length affect the pendulum oscillation period.</p>
+      </div>
+
+      <div class="sim-canvas-wrap">
+        <canvas id="pendulum-canvas" class="sim-canvas" width="900" height="380" aria-label="Physics pendulum oscillating under selected gravitational conditions"></canvas>
+      </div>
+
+      <div class="sim-controls-grid">
+        <div class="sim-control-group">
+          <label for="length-slider">String Length: <span id="length-val">1.5 m</span></label>
+          <input type="range" id="length-slider" min="0.5" max="3.0" step="0.1" value="1.5" oninput="updatePendulumLab()">
+        </div>
+        <div class="sim-control-group">
+          <label for="planet-gravity">Gravity Environment:</label>
+          <select id="planet-gravity" onchange="updatePendulumLab()" style="padding: 0.5rem; border-radius: 8px; background: #0f172a; color: #fff; border: 1px solid #334155;">
+            <option value="9.8">🌍 Earth (9.8 m/s²)</option>
+            <option value="1.62">🌕 Moon (1.62 m/s²)</option>
+            <option value="24.79">🪐 Jupiter (24.79 m/s²)</option>
+            <option value="3.72">🔴 Mars (3.72 m/s²)</option>
+          </select>
+        </div>
+        <div class="sim-control-group" style="justify-content: flex-end;">
+          <button class="btn btn-secondary btn-sm" onclick="resetPendulum()">
+            <i data-lucide="play"></i> Release from 45°
+          </button>
+        </div>
+      </div>
+
+      <div class="sim-info-box" id="physics-info-box">
+        <strong>Physics Law:</strong> Period <em>T = 2π √(L / g)</em>. Notice that string length and gravity determine the period, not the mass of the bob!
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AccessibleVerse — Learn Without Limits.</div>
+        <div>Science Explorer Lab with WCAG 2.2 AA Accessibility.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/global-nav.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/companion.js"></script>
+  <script src="js/science.js"></script>
+</body>
+</html>

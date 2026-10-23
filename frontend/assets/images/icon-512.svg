@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Shield -->
+  <rect width="512" height="512" rx="112" fill="#0f172a" />
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="none" stroke="url(#bgGrad512)" stroke-width="10" opacity="0.85" />
+  <!-- Central 3D Cube / Star Emblem -->
+  <g transform="translate(256, 256)">
+    <!-- Top Face -->
+    <polygon points="0,-120 112,-56 0,8 -112,-56" fill="url(#bgGrad512)" opacity="0.9" />
+    <!-- Left Face -->
+    <polygon points="-112,-56 0,8 0,128 -112,64" fill="#3730a3" opacity="0.95" />
+    <!-- Right Face -->
+    <polygon points="0,8 112,-56 112,64 0,128" fill="#0284c7" opacity="0.95" />
+    <!-- Glowing Star in Center -->
+    <polygon points="0,-42 13,-13 42,-13 18,5 26,34 0,18 -26,34 -18,5 -42,-13 -13,-13" fill="#facc15" stroke="#ffffff" stroke-width="3" />
+  </g>
+</svg>

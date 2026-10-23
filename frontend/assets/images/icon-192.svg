@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="cubeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e0e7ff" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Shield -->
+  <rect width="192" height="192" rx="42" fill="#0f172a" />
+  <rect x="6" y="6" width="180" height="180" rx="36" fill="none" stroke="url(#bgGrad)" stroke-width="4" opacity="0.8" />
+  <!-- Central 3D Cube / Star Emblem -->
+  <g transform="translate(96, 96)">
+    <!-- Isometric Cube Faces -->
+    <!-- Top Face -->
+    <polygon points="0,-45 42,-21 0,3 -42,-21" fill="url(#bgGrad)" opacity="0.9" />
+    <!-- Left Face -->
+    <polygon points="-42,-21 0,3 0,48 -42,24" fill="#3730a3" opacity="0.95" />
+    <!-- Right Face -->
+    <polygon points="0,3 42,-21 42,24 0,48" fill="#0284c7" opacity="0.95" />
+    <!-- Glowing Star in Center -->
+    <polygon points="0,-16 5,-5 16,-5 7,2 10,13 0,7 -10,13 -7,2 -16,-5 -5,-5" fill="#facc15" stroke="#ffffff" stroke-width="1.5" />
+  </g>
+</svg>

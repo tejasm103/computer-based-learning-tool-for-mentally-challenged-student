@@ -378,6 +378,89 @@ CURATED_LESSONS = [
         "content": {
             "topics": ["Hardware vs Software", "Internet safety & strong passwords", "HTML: The skeleton of web pages", "Python: Friendly programming logic"]
         }
+    },
+    {
+        "id": "science-solar-system",
+        "title": "Cosmic Explorer: Planets & Our Solar System",
+        "subject": "science",
+        "level": "beginner",
+        "icon": "globe",
+        "description": "Travel through the 8 planets orbiting our Sun, understand planetary scales, day-night cycles, and moon phases.",
+        "xp": 70,
+        "content": {
+            "planets": [
+                {"name": "Mercury", "fact": "Smallest planet, closest to the Sun."},
+                {"name": "Venus", "fact": "Hottest planet with thick atmosphere."},
+                {"name": "Earth", "fact": "Our home with oceans, life, and breathable air."},
+                {"name": "Mars", "fact": "The Red Planet with iron-rich soil and giant volcanoes."},
+                {"name": "Jupiter", "fact": "Largest planet with a Great Red Spot storm."},
+                {"name": "Saturn", "fact": "Famous for its stunning bright icy rings."},
+                {"name": "Uranus", "fact": "An ice giant that rotates on its side."},
+                {"name": "Neptune", "fact": "Distant windy blue planet with supersonic storms."}
+            ]
+        }
+    },
+    {
+        "id": "science-plant-ecosystem",
+        "title": "Living Ecosystems: Plants, Photosynthesis & Habitats",
+        "subject": "science",
+        "level": "intermediate",
+        "icon": "flower",
+        "description": "Discover how plants convert sunlight into energy, the role of pollinators, and how animals coexist in habitats.",
+        "xp": 65,
+        "content": {
+            "steps": [
+                {"step": "Roots", "desc": "Absorb water and minerals from soil."},
+                {"step": "Stem", "desc": "Transports water and holds leaves up to sunlight."},
+                {"step": "Leaves", "desc": "Use chlorophyll and sunlight to make plant food (Photosynthesis)."},
+                {"step": "Oxygen", "desc": "Plants release fresh oxygen for humans and animals to breathe."}
+            ]
+        }
+    },
+    {
+        "id": "cyber-safe-browsing",
+        "title": "Cyber Shield: Passwords, Phishing & Safe Browsing",
+        "subject": "cybersecurity",
+        "level": "beginner",
+        "icon": "shield-check",
+        "description": "Learn to identify phishing scams, craft unbreakable passwords, secure your camera, and protect your identity online.",
+        "xp": 80,
+        "content": {
+            "rules": [
+                {"title": "Strong Passphrase", "tip": "Use 4 random words plus numbers, e.g. 'BlueSkyRiver#99'."},
+                {"title": "Spotting Phishing", "tip": "Never click urgent links from unknown senders asking for passwords."},
+                {"title": "Private Wi-Fi", "tip": "Avoid logging into sensitive accounts on open public Wi-Fi without VPN."},
+                {"title": "Permissions Check", "tip": "Review camera and microphone permissions on apps regularly."}
+            ]
+        }
+    },
+    {
+        "id": "life-money-shopping",
+        "title": "Money Mastery: Indian Rupee (₹) & Smart Shopping",
+        "subject": "everyday",
+        "level": "beginner",
+        "icon": "coins",
+        "description": "Identify Indian Rupee coins and notes (₹1, ₹2, ₹5, ₹10, ₹20, ₹50, ₹100, ₹500), make budgets, and calculate change.",
+        "xp": 60,
+        "content": {
+            "currency": [
+                {"denomination": "₹1, ₹2, ₹5, ₹10 Coins", "use": "Everyday small grocery items and transit fares."},
+                {"denomination": "₹20, ₹50, ₹100 Notes", "use": "Market shopping, books, and stationeries."},
+                {"denomination": "₹200, ₹500 Notes", "use": "Large utility bills, clothing, and household savings."}
+            ]
+        }
+    },
+    {
+        "id": "life-clock-time",
+        "title": "Clock Reading & Daily Routine Scheduling",
+        "subject": "everyday",
+        "level": "beginner",
+        "icon": "clock",
+        "description": "Master reading analog clock hands (hour and minute), AM/PM concepts, and organizing your daily learning hours.",
+        "xp": 55,
+        "content": {
+            "concepts": ["Short hand: Hours (1 to 12)", "Long hand: Minutes (60 in an hour)", "AM: Morning, PM: Afternoon & Evening"]
+        }
     }
 ]
 
@@ -388,16 +471,30 @@ CURATED_ACHIEVEMENTS = [
     {"id": "ach_math_whiz", "title": "Math Whiz", "description": "Score 100+ points in Number Quest.", "icon": "calculator", "xp": 75},
     {"id": "ach_runner_star", "title": "Runner Prodigy", "description": "Reach a score of 500 in 3D Knowledge Runner.", "icon": "zap", "xp": 150},
     {"id": "ach_road_guardian", "title": "Road Safety Guardian", "description": "Score 100% on the Traffic Safety Challenge.", "icon": "shield-check", "xp": 75},
-    {"id": "ach_video_scholar", "title": "Video Scholar", "description": "Watch 3 educational videos.", "icon": "film", "xp": 100}
+    {"id": "ach_video_scholar", "title": "Video Scholar", "description": "Watch 3 educational videos.", "icon": "film", "xp": 100},
+    {"id": "ach_science_pioneer", "title": "Science Pioneer", "description": "Explore the Solar System and Ecosystems.", "icon": "globe", "xp": 100},
+    {"id": "ach_cyber_shield", "title": "Cyber Shield Guardian", "description": "Conquer the Cybersecurity Escape Room.", "icon": "shield", "xp": 120},
+    {"id": "ach_money_master", "title": "Rupee Master", "description": "Master the Indian Rupee Money and Shopping Counter.", "icon": "coins", "xp": 80},
+    {"id": "ach_code_creator", "title": "Code Creator", "description": "Write and run your first interactive code snippet.", "icon": "code", "xp": 100},
+    {"id": "ach_story_hero", "title": "Story Explorer", "description": "Complete your first interactive branching story.", "icon": "book", "xp": 80},
+    {"id": "ach_mistake_healer", "title": "Mistake Master", "description": "Review and master 3 past quiz mistakes.", "icon": "check-circle", "xp": 90}
 ]
 
-# In-Memory Datastore for safe local testing when MongoDB credentials are not yet configured
+# In-Memory Datastore for safe local testing and offline execution
 _memory_store = {
     "users": {},
     "progress": {},
     "game_scores": [],
     "quiz_attempts": [],
-    "saved_videos": {}
+    "saved_videos": {},
+    "classrooms": {},
+    "assignments": [],
+    "assignment_submissions": [],
+    "mistakes": [],
+    "certificates": {},
+    "daily_missions": {},
+    "portfolios": {},
+    "study_events": []
 }
 
 class DBService:
@@ -409,7 +506,9 @@ class DBService:
         
         # Memory fallback
         for user in _memory_store["users"].values():
-            if user["email"].lower() == identifier.lower() or user["username"].lower() == identifier.lower():
+            u_email = user.get("email", "").lower()
+            u_name = user.get("username", "").lower()
+            if u_email == identifier.lower() or u_name == identifier.lower():
                 return user
         return None
 
@@ -635,3 +734,525 @@ class DBService:
         if user:
             user["xp"] = user.get("xp", 0) + xp_gain
         return record
+
+    # =========================================================================
+    # Classroom & Guardian Methods
+    # =========================================================================
+    @staticmethod
+    def create_classroom(teacher_id, name, subject, description=""):
+        import random, string
+        code = "AV-" + "".join(random.choices(string.digits, k=4))
+        classroom = {
+            "name": name,
+            "subject": subject,
+            "description": description,
+            "teacher_id": str(teacher_id),
+            "join_code": code,
+            "students": [],
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        db = get_db()
+        if db is not None:
+            res = db.classrooms.insert_one(classroom)
+            classroom["_id"] = str(res.inserted_id)
+            classroom["id"] = str(res.inserted_id)
+            return classroom
+        
+        cid = "class_" + str(len(_memory_store["classrooms"]) + 1)
+        classroom["_id"] = cid
+        classroom["id"] = cid
+        _memory_store["classrooms"][cid] = classroom
+        return classroom
+
+    @staticmethod
+    def get_classrooms_by_teacher(teacher_id):
+        db = get_db()
+        if db is not None:
+            cursor = db.classrooms.find({"teacher_id": str(teacher_id)})
+            return [{**c, "_id": str(c["_id"]), "id": str(c["_id"])} for c in cursor]
+        return [c for c in _memory_store["classrooms"].values() if c["teacher_id"] == str(teacher_id)]
+
+    @staticmethod
+    def get_classroom_by_code(code):
+        db = get_db()
+        if db is not None:
+            c = db.classrooms.find_one({"join_code": code.upper()})
+            if c:
+                return {**c, "_id": str(c["_id"]), "id": str(c["_id"])}
+            return None
+        for c in _memory_store["classrooms"].values():
+            if c["join_code"] == code.upper():
+                return c
+        return None
+
+    @staticmethod
+    def join_classroom(student_id, code):
+        classroom = DBService.get_classroom_by_code(code)
+        if not classroom:
+            return {"success": False, "error": "Invalid classroom join code."}
+        
+        cid = classroom["id"]
+        sid = str(student_id)
+        db = get_db()
+        if db is not None:
+            try:
+                db.classrooms.update_one({"_id": ObjectId(cid)}, {"$addToSet": {"students": sid}})
+            except Exception:
+                db.classrooms.update_one({"id": cid}, {"$addToSet": {"students": sid}})
+            try:
+                db.users.update_one({"_id": ObjectId(sid)}, {"$addToSet": {"enrolled_classrooms": cid}})
+            except Exception:
+                db.users.update_one({"id": sid}, {"$addToSet": {"enrolled_classrooms": cid}})
+            return {"success": True, "classroom": classroom}
+        
+        if sid not in classroom.setdefault("students", []):
+            classroom["students"].append(sid)
+        user = _memory_store["users"].get(sid)
+        if user:
+            user.setdefault("enrolled_classrooms", []).append(cid)
+        return {"success": True, "classroom": classroom}
+
+    @staticmethod
+    def get_student_classrooms(student_id):
+        sid = str(student_id)
+        db = get_db()
+        if db is not None:
+            cursor = db.classrooms.find({"students": sid})
+            return [{**c, "_id": str(c["_id"]), "id": str(c["_id"])} for c in cursor]
+        return [c for c in _memory_store["classrooms"].values() if sid in c.get("students", [])]
+
+    @staticmethod
+    def create_assignment(classroom_id, teacher_id, title, description, activity_type, activity_id, due_date, xp_reward=50):
+        assignment = {
+            "classroom_id": str(classroom_id),
+            "teacher_id": str(teacher_id),
+            "title": title,
+            "description": description,
+            "activity_type": activity_type,
+            "activity_id": activity_id,
+            "due_date": due_date,
+            "xp_reward": int(xp_reward),
+            "submissions": {},
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        db = get_db()
+        if db is not None:
+            res = db.assignments.insert_one(assignment)
+            assignment["_id"] = str(res.inserted_id)
+            assignment["id"] = str(res.inserted_id)
+            return assignment
+        
+        aid = "assign_" + str(len(_memory_store["assignments"]) + 1)
+        assignment["_id"] = aid
+        assignment["id"] = aid
+        _memory_store["assignments"].append(assignment)
+        return assignment
+
+    @staticmethod
+    def get_assignments(classroom_id=None, student_id=None):
+        db = get_db()
+        query = {}
+        if classroom_id:
+            query["classroom_id"] = str(classroom_id)
+        if db is not None:
+            cursor = db.assignments.find(query)
+            items = []
+            for item in cursor:
+                item["_id"] = str(item["_id"])
+                item["id"] = str(item["_id"])
+                items.append(item)
+            return items
+        
+        results = _memory_store["assignments"]
+        if classroom_id:
+            results = [a for a in results if a["classroom_id"] == str(classroom_id)]
+        return results
+
+    @staticmethod
+    def submit_assignment(assignment_id, student_id, score=100, notes=""):
+        sid = str(student_id)
+        submission = {
+            "student_id": sid,
+            "submitted_at": datetime.now(timezone.utc).isoformat(),
+            "score": score,
+            "notes": notes,
+            "feedback": "",
+            "status": "completed"
+        }
+        db = get_db()
+        if db is not None:
+            try:
+                db.assignments.update_one(
+                    {"_id": ObjectId(assignment_id)},
+                    {"$set": {f"submissions.{sid}": submission}}
+                )
+            except Exception:
+                db.assignments.update_one(
+                    {"id": assignment_id},
+                    {"$set": {f"submissions.{sid}": submission}}
+                )
+            return {"success": True, "submission": submission}
+        
+        for a in _memory_store["assignments"]:
+            if a["id"] == str(assignment_id):
+                a.setdefault("submissions", {})[sid] = submission
+                return {"success": True, "submission": submission}
+        return {"success": False, "error": "Assignment not found"}
+
+    @staticmethod
+    def add_assignment_feedback(assignment_id, student_id, feedback_text, score=None):
+        sid = str(student_id)
+        updates = {f"submissions.{sid}.feedback": feedback_text}
+        if score is not None:
+            updates[f"submissions.{sid}.score"] = score
+        db = get_db()
+        if db is not None:
+            try:
+                db.assignments.update_one({"_id": ObjectId(assignment_id)}, {"$set": updates})
+            except Exception:
+                db.assignments.update_one({"id": assignment_id}, {"$set": updates})
+            return {"success": True}
+        for a in _memory_store["assignments"]:
+            if a["id"] == str(assignment_id):
+                if sid in a.get("submissions", {}):
+                    a["submissions"][sid]["feedback"] = feedback_text
+                    if score is not None:
+                        a["submissions"][sid]["score"] = score
+                    return {"success": True}
+        return {"success": False}
+
+    # =========================================================================
+    # Mistake Review & Practice Center
+    # =========================================================================
+    @staticmethod
+    def record_mistake(user_id, quiz_id, question_id, question_text, chosen_option, correct_option, explanation, category="general"):
+        mistake = {
+            "user_id": str(user_id),
+            "quiz_id": quiz_id,
+            "question_id": question_id,
+            "question_text": question_text,
+            "chosen_option": chosen_option,
+            "correct_option": correct_option,
+            "explanation": explanation,
+            "category": category,
+            "resolved": False,
+            "attempt_count": 1,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        db = get_db()
+        if db is not None:
+            existing = db.mistakes.find_one({
+                "user_id": str(user_id),
+                "quiz_id": quiz_id,
+                "question_id": question_id
+            })
+            if existing:
+                db.mistakes.update_one(
+                    {"_id": existing["_id"]},
+                    {"$inc": {"attempt_count": 1}, "$set": {"resolved": False, "chosen_option": chosen_option}}
+                )
+                return str(existing["_id"])
+            res = db.mistakes.insert_one(mistake)
+            return str(res.inserted_id)
+        
+        for m in _memory_store["mistakes"]:
+            if m["user_id"] == str(user_id) and m["quiz_id"] == quiz_id and m["question_id"] == question_id:
+                m["attempt_count"] += 1
+                m["resolved"] = False
+                m["chosen_option"] = chosen_option
+                return m.get("id", "m_id")
+        
+        mid = "mistake_" + str(len(_memory_store["mistakes"]) + 1)
+        mistake["id"] = mid
+        _memory_store["mistakes"].append(mistake)
+        return mid
+
+    @staticmethod
+    def get_user_mistakes(user_id, resolved=False):
+        db = get_db()
+        if db is not None:
+            cursor = db.mistakes.find({"user_id": str(user_id), "resolved": resolved}).sort("created_at", -1)
+            results = []
+            for item in cursor:
+                item["_id"] = str(item["_id"])
+                item["id"] = str(item["_id"])
+                results.append(item)
+            return results
+        return [m for m in _memory_store["mistakes"] if m["user_id"] == str(user_id) and m["resolved"] == resolved]
+
+    @staticmethod
+    def resolve_mistake(user_id, mistake_id):
+        db = get_db()
+        if db is not None:
+            try:
+                db.mistakes.update_one(
+                    {"_id": ObjectId(mistake_id), "user_id": str(user_id)},
+                    {"$set": {"resolved": True, "resolved_at": datetime.now(timezone.utc).isoformat()}}
+                )
+            except Exception:
+                db.mistakes.update_one(
+                    {"id": mistake_id, "user_id": str(user_id)},
+                    {"$set": {"resolved": True, "resolved_at": datetime.now(timezone.utc).isoformat()}}
+                )
+            return {"success": True}
+        for m in _memory_store["mistakes"]:
+            if (m.get("id") == mistake_id or m.get("_id") == mistake_id) and m["user_id"] == str(user_id):
+                m["resolved"] = True
+                m["resolved_at"] = datetime.now(timezone.utc).isoformat()
+                return {"success": True}
+        return {"success": False}
+
+    # =========================================================================
+    # Certificates & Milestone Verification
+    # =========================================================================
+    @staticmethod
+    def issue_certificate(user_id, course_id, course_title, student_name):
+        import uuid
+        cert_code = "CERT-AV-2026-" + uuid.uuid4().hex[:8].upper()
+        cert = {
+            "certificate_id": cert_code,
+            "user_id": str(user_id),
+            "student_name": student_name or "AccessibleVerse Scholar",
+            "course_id": course_id,
+            "course_title": course_title,
+            "issued_at": datetime.now(timezone.utc).strftime("%B %d, %Y"),
+            "verified": True,
+            "issuer": "AccessibleVerse — Learn Without Limits Initiative"
+        }
+        db = get_db()
+        if db is not None:
+            db.certificates.insert_one(cert)
+            cert["_id"] = str(cert.get("_id", cert_code))
+            return cert
+        
+        _memory_store["certificates"][cert_code] = cert
+        return cert
+
+    @staticmethod
+    def get_user_certificates(user_id):
+        db = get_db()
+        if db is not None:
+            cursor = db.certificates.find({"user_id": str(user_id)})
+            return [{**c, "_id": str(c["_id"])} for c in cursor]
+        return [c for c in _memory_store["certificates"].values() if c["user_id"] == str(user_id)]
+
+    @staticmethod
+    def verify_certificate(cert_id):
+        cert_code = cert_id.strip().upper()
+        db = get_db()
+        if db is not None:
+            c = db.certificates.find_one({"certificate_id": cert_code})
+            if c:
+                return {**c, "_id": str(c["_id"]), "valid": True}
+        if cert_code in _memory_store["certificates"]:
+            return {**_memory_store["certificates"][cert_code], "valid": True}
+        return {"valid": False, "error": "Certificate ID not found or could not be verified."}
+
+    # =========================================================================
+    # Daily Missions & Smart Study Plan
+    # =========================================================================
+    @staticmethod
+    def get_or_create_daily_missions(user_id):
+        today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        default_missions = [
+            {"id": "m1", "title": "Complete 1 Learning Lesson", "type": "lesson", "target": 1, "current": 0, "xp_reward": 50, "completed": False},
+            {"id": "m2", "title": "Score 80%+ in any Quiz", "type": "quiz", "target": 1, "current": 0, "xp_reward": 60, "completed": False},
+            {"id": "m3", "title": "Explore a 3D Island / Play a Game", "type": "game", "target": 1, "current": 0, "xp_reward": 40, "completed": False}
+        ]
+        db = get_db()
+        if db is not None:
+            doc = db.daily_missions.find_one({"user_id": str(user_id), "date": today_str})
+            if not doc:
+                record = {
+                    "user_id": str(user_id),
+                    "date": today_str,
+                    "missions": default_missions,
+                    "all_completed": False
+                }
+                db.daily_missions.insert_one(record)
+                record["_id"] = str(record["_id"])
+                return record
+            doc["_id"] = str(doc["_id"])
+            return doc
+        
+        key = f"{user_id}_{today_str}"
+        if key not in _memory_store["daily_missions"]:
+            _memory_store["daily_missions"][key] = {
+                "user_id": str(user_id),
+                "date": today_str,
+                "missions": default_missions,
+                "all_completed": False
+            }
+        return _memory_store["daily_missions"][key]
+
+    @staticmethod
+    def increment_mission_progress(user_id, mission_type, count=1):
+        missions_data = DBService.get_or_create_daily_missions(user_id)
+        today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        updated = False
+        xp_awarded = 0
+        for m in missions_data["missions"]:
+            if m["type"] == mission_type and not m["completed"]:
+                m["current"] = min(m["target"], m["current"] + count)
+                if m["current"] >= m["target"]:
+                    m["completed"] = True
+                    xp_awarded += m["xp_reward"]
+                updated = True
+        
+        if updated:
+            missions_data["all_completed"] = all(m["completed"] for m in missions_data["missions"])
+            db = get_db()
+            if db is not None:
+                db.daily_missions.update_one(
+                    {"user_id": str(user_id), "date": today_str},
+                    {"$set": {"missions": missions_data["missions"], "all_completed": missions_data["all_completed"]}}
+                )
+                if xp_awarded > 0:
+                    try:
+                        db.users.update_one({"_id": ObjectId(user_id)}, {"$inc": {"xp": xp_awarded}})
+                    except Exception:
+                        db.users.update_one({"id": str(user_id)}, {"$inc": {"xp": xp_awarded}})
+            else:
+                user = _memory_store["users"].get(str(user_id))
+                if user and xp_awarded > 0:
+                    user["xp"] = user.get("xp", 0) + xp_awarded
+        return missions_data
+
+    @staticmethod
+    def get_study_calendar(user_id):
+        db = get_db()
+        if db is not None:
+            cursor = db.study_events.find({"user_id": str(user_id)}).sort("date", 1)
+            return [{**e, "_id": str(e["_id"])} for e in cursor]
+        return [e for e in _memory_store["study_events"] if e["user_id"] == str(user_id)]
+
+    @staticmethod
+    def save_study_event(user_id, event_data):
+        event = {
+            "user_id": str(user_id),
+            "title": event_data.get("title", "Study Session"),
+            "date": event_data.get("date", datetime.now(timezone.utc).strftime("%Y-%m-%d")),
+            "time": event_data.get("time", "10:00 AM"),
+            "activity_type": event_data.get("activity_type", "lesson"),
+            "completed": event_data.get("completed", False)
+        }
+        db = get_db()
+        if db is not None:
+            res = db.study_events.insert_one(event)
+            event["_id"] = str(res.inserted_id)
+            return event
+        _memory_store["study_events"].append(event)
+        return event
+
+    # =========================================================================
+    # Digital Portfolio
+    # =========================================================================
+    @staticmethod
+    def get_user_portfolio(user_id):
+        db = get_db()
+        if db is not None:
+            p = db.portfolios.find_one({"user_id": str(user_id)})
+            if p:
+                return {**p, "_id": str(p["_id"])}
+        
+        if str(user_id) in _memory_store["portfolios"]:
+            return _memory_store["portfolios"][str(user_id)]
+        
+        default_port = {
+            "user_id": str(user_id),
+            "bio": "Lifelong explorer on AccessibleVerse — learning without limits!",
+            "is_public": False,
+            "items": [],
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        return default_port
+
+    @staticmethod
+    def add_portfolio_item(user_id, item_data):
+        import uuid
+        item = {
+            "id": "port_" + uuid.uuid4().hex[:8],
+            "title": item_data.get("title", "My Project"),
+            "type": item_data.get("type", "coding"),
+            "content": item_data.get("content", ""),
+            "tags": item_data.get("tags", []),
+            "created_at": datetime.now(timezone.utc).strftime("%B %d, %Y")
+        }
+        db = get_db()
+        if db is not None:
+            db.portfolios.update_one(
+                {"user_id": str(user_id)},
+                {"$push": {"items": item}, "$set": {"updated_at": datetime.now(timezone.utc).isoformat()}},
+                upsert=True
+            )
+            return item
+        
+        port = _memory_store["portfolios"].setdefault(str(user_id), {
+            "user_id": str(user_id),
+            "bio": "Explorer on AccessibleVerse",
+            "is_public": False,
+            "items": [],
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        })
+        port["items"].append(item)
+        return item
+
+    # =========================================================================
+    # Progress Sync (Anti-Duplication & Multi-Device Merging)
+    # =========================================================================
+    @staticmethod
+    def sync_user_progress(user_id, client_payload):
+        user = DBService.get_user_by_id(user_id)
+        if not user:
+            user = {
+                "id": str(user_id),
+                "username": str(user_id),
+                "full_name": "Explorer",
+                "role": "student",
+                "xp": 0,
+                "streak": 1,
+                "completed_lessons": [],
+                "achievements": [],
+                "accessibility_settings": {}
+            }
+            db = get_db()
+            if db is not None:
+                try:
+                    db.users.insert_one({**user, "_id": ObjectId()})
+                except Exception:
+                    pass
+            else:
+                _memory_store["users"][str(user_id)] = user
+        
+        client_completed = client_payload.get("completed_lessons", [])
+        server_completed = set(user.get("completed_lessons", []))
+        
+        new_lessons = [lid for lid in client_completed if lid not in server_completed]
+        xp_gain_from_lessons = 0
+        for lid in new_lessons:
+            lesson = DBService.get_lesson_by_id(lid)
+            xp_gain_from_lessons += (lesson["xp"] if lesson else 50)
+            server_completed.add(lid)
+            
+        client_achievements = client_payload.get("achievements", [])
+        server_achievements = set(user.get("achievements", []))
+        server_achievements.update(client_achievements)
+        
+        a11y = client_payload.get("accessibility_settings", {})
+        
+        updates = {
+            "completed_lessons": list(server_completed),
+            "achievements": list(server_achievements),
+            "accessibility_settings": {**user.get("accessibility_settings", {}), **a11y}
+        }
+        
+        if xp_gain_from_lessons > 0:
+            updates["xp"] = user.get("xp", 0) + xp_gain_from_lessons
+        
+        updated_user = DBService.update_user_profile(user_id, updates)
+        return {
+            "success": True,
+            "user": updated_user,
+            "new_lessons_synced": len(new_lessons),
+            "xp_awarded": xp_gain_from_lessons
+        }
