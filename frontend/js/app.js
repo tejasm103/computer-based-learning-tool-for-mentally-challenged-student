@@ -66,14 +66,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 4. Update Navbar Authentication State
   updateNavbarAuth();
 
-  // 5. Setup Narration Badges & Click-to-Speak
+  // 5. Setup Narration Badges & Click-to-Speak with AudioContext Unlock
+  const triggerSpeak = (speakEl) => {
+    if (!speakEl) return;
+    const text = speakEl.getAttribute('data-speak') || speakEl.textContent;
+    const lang = speakEl.getAttribute('data-lang') || (window.lang ? window.lang.getCurrentLanguage() : 'en');
+    
+    // Visual pulse effect on clicked element
+    speakEl.classList.add('speaking-active-pulse');
+    setTimeout(() => speakEl.classList.remove('speaking-active-pulse'), 1200);
+
+    if (window.lang && text) {
+      window.lang.speakText(text.trim(), lang);
+    }
+  };
+
   document.addEventListener('click', (e) => {
+    // Unlock Web Audio API on first user gesture
+    if (window.lang && window.lang.soundFX) {
+      window.lang.soundFX.getAudioContext();
+    }
     const speakEl = e.target.closest('[data-speak]');
     if (speakEl) {
-      const text = speakEl.getAttribute('data-speak') || speakEl.textContent;
-      const lang = speakEl.getAttribute('data-lang') || (window.lang ? window.lang.getCurrentLanguage() : 'en');
-      if (window.lang && text) {
-        window.lang.speakText(text, lang);
+      triggerSpeak(speakEl);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const speakEl = document.activeElement ? document.activeElement.closest('[data-speak]') : null;
+      if (speakEl && speakEl.tagName !== 'INPUT' && speakEl.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        triggerSpeak(speakEl);
       }
     }
   });
@@ -131,7 +155,11 @@ window.FALLBACK_VIDEOS = [
   { id: "vid_07", youtube_id: "FnW0TqxhJik", title: "Daily Hygiene, Healthy Habits & Morning Routines", category: "everyday", language: "en", level: "beginner", duration: "08:15", description: "Step-by-step hand washing, dental care, dressing up, and developing positive daily routines.", thumbnail: "https://img.youtube.com/vi/FnW0TqxhJik/hqdefault.jpg" },
   { id: "vid_08", youtube_id: "KaBYEZ6q2tY", title: "Emotions, Communication & Social Interactions", category: "everyday", language: "en", level: "intermediate", duration: "11:50", description: "Recognizing feelings, building empathy, respectful conversations, and expressing needs clearly.", thumbnail: "https://img.youtube.com/vi/KaBYEZ6q2tY/hqdefault.jpg" },
   { id: "vid_09", youtube_id: "NUMz00m8ySk", title: "Computer Basics, Mouse, Keyboard & Internet Safety", category: "technology", language: "en", level: "beginner", duration: "13:10", description: "Parts of a computer, staying safe on the web, password hygiene, and cyber awareness.", thumbnail: "https://img.youtube.com/vi/NUMz00m8ySk/hqdefault.jpg" },
-  { id: "vid_10", youtube_id: "xPq1KrYWbqo", title: "Coding for Kids: HTML, CSS & JavaScript Fundamentals", category: "technology", language: "en", level: "intermediate", duration: "16:45", description: "Create your first interactive web page with tags, colors, animations, and friendly logic.", thumbnail: "https://img.youtube.com/vi/xPq1KrYWbqo/hqdefault.jpg" }
+  { id: "vid_10", youtube_id: "xPq1KrYWbqo", title: "Coding for Kids: HTML, CSS & JavaScript Fundamentals", category: "technology", language: "en", level: "intermediate", duration: "16:45", description: "Create your first interactive web page with tags, colors, animations, and friendly logic.", thumbnail: "https://img.youtube.com/vi/xPq1KrYWbqo/hqdefault.jpg" },
+  { id: "vid_11", youtube_id: "libKVRa01L8", title: "3D Solar System & Planet Orbits: Cosmic Adventure", category: "science", language: "en", level: "beginner", duration: "11:20", description: "Spectacular 3D planetary tour showing orbital speeds, relative planet scales, and the radiant Sun.", thumbnail: "https://img.youtube.com/vi/libKVRa01L8/hqdefault.jpg" },
+  { id: "vid_12", youtube_id: "UPBMG5EYydo", title: "3D Plant Photosynthesis & Ecosystem Animation", category: "science", language: "en", level: "intermediate", duration: "09:35", description: "Step inside a green leaf in 3D animation to watch chlorophyll convert sunlight, water, and CO2 into clean oxygen.", thumbnail: "https://img.youtube.com/vi/UPBMG5EYydo/hqdefault.jpg" },
+  { id: "vid_13", youtube_id: "sZ2h_4iLd3s", title: "3D Indian Rupee Money & Supermarket Shopping", category: "everyday", language: "en", level: "beginner", duration: "10:50", description: "Interactive animated guide to counting Indian rupee coins and notes, calculating bills, and getting exact change.", thumbnail: "https://img.youtube.com/vi/sZ2h_4iLd3s/hqdefault.jpg" },
+  { id: "vid_14", youtube_id: "yrln8nyVBLU", title: "3D Cyber Shield: Password Fortress & Safe Browsing", category: "technology", language: "en", level: "intermediate", duration: "08:45", description: "Futuristic 3D animated guide to creating unbreakable passwords, identifying phishing scams, and protecting personal identity.", thumbnail: "https://img.youtube.com/vi/yrln8nyVBLU/hqdefault.jpg" }
 ];
 
 window.FALLBACK_LESSONS = [
@@ -321,6 +349,15 @@ window.FALLBACK_LESSONS = [
     icon: "calculator",
     description: "Explore 1 to 100 counting grid, tens and units, even and odd numbers with interactive counters.",
     xp: 50
+  },
+  {
+    id: "math-addition-subtraction",
+    title: "Addition and Subtraction within 100",
+    subject: "mathematics",
+    level: "beginner",
+    icon: "plus-minus",
+    description: "Master addition and subtraction facts up to 100 using number bonds, mental math strategies, and real-world problems.",
+    xp: 60
   },
   {
     id: "math-multiplication-tables",

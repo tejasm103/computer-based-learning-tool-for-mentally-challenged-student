@@ -664,3 +664,63 @@ a:hover {
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+/* ===================================================================
+   Student-Friendly Interactive Components & Audio Feedback
+   =================================================================== */
+@keyframes speakPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+  50% { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+.speaking-active-pulse {
+  animation: speakPulse 0.8s ease-in-out !important;
+  border-color: var(--primary) !important;
+}
+
+/* Interactive Topic Cards with Micro-Animations */
+.topic-interactive-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  user-select: none;
+}
+
+.topic-interactive-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--primary) !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25) !important;
+}
+
+.topic-interactive-card:active {
+  transform: scale(0.97);
+}
+
+/* 100-Number Grid Cells */
+.num-cell-btn {
+  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+
+.num-cell-btn:hover {
+  transform: scale(1.18);
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  z-index: 5;
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+.num-cell-btn:focus-visible {
+  outline: 3px solid var(--accent);
+  z-index: 6;
+}
+
+/* 3D Perspective Utility */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.card-3d-tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+

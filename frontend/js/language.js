@@ -224,19 +224,125 @@ const TRANSLATIONS = {
   }
 };
 
+// =================================================================
+// Acoustic Audio Engine (Web Audio API)
+// Provides instant offline acoustic feedback, melodic chimes, and fanfares
+// =================================================================
+class SoundFXEngine {
+  constructor() {
+    this.ctx = null;
+  }
+
+  getAudioContext() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
+    return this.ctx;
+  }
+
+  // Melodic two-tone chime when clicking audio or interactive buttons
+  playChime(freq1 = 523.25, freq2 = 659.25) {
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    try {
+      const now = ctx.currentTime;
+      // Tone 1
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(freq1, now);
+      gain1.gain.setValueAtTime(0.12, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.28);
+
+      // Tone 2 (Harmonic bell)
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(freq2, now + 0.08);
+      gain2.gain.setValueAtTime(0.1, now + 0.08);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.08);
+      osc2.stop(now + 0.38);
+    } catch (e) {
+      // AudioContext policy fallback
+    }
+  }
+
+  // Celebratory fanfare for completing a lesson or quiz
+  playFanfare() {
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    try {
+      const now = ctx.currentTime;
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = now + (idx * 0.1);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.15, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.35);
+      });
+    } catch (e) {}
+  }
+}
+
 class LanguageManager {
   constructor() {
     this.currentLang = localStorage.getItem('accessibleverse_lang') || 'en';
     this.synth = window.speechSynthesis || null;
+    this.soundFX = new SoundFXEngine();
+    this.voices = [];
+    this.speechRate = parseFloat(localStorage.getItem('accessibleverse_speech_rate')) || 0.95;
+    this.isSpeaking = false;
+    this.initVoices();
+  }
+
+  initVoices() {
+    if (!this.synth) return;
+    this.loadVoices();
+    if (this.synth.onvoiceschanged !== undefined) {
+      this.synth.onvoiceschanged = () => this.loadVoices();
+    }
+  }
+
+  loadVoices() {
+    if (!this.synth) return;
+    this.voices = this.synth.getVoices() || [];
   }
 
   init() {
     this.applyLanguage(this.currentLang);
     this.setupLanguagePickers();
+    this.injectSpeechIndicator();
   }
 
   getCurrentLanguage() {
     return this.currentLang;
+  }
+
+  setSpeechRate(rate) {
+    this.speechRate = Math.max(0.6, Math.min(1.5, rate));
+    localStorage.setItem('accessibleverse_speech_rate', this.speechRate.toString());
   }
 
   t(key) {
@@ -281,54 +387,281 @@ class LanguageManager {
       if (btn) {
         const lang = btn.getAttribute('data-lang');
         if (lang) {
+          this.soundFX.playChime(440, 554.37); // A4 to C#5
           this.applyLanguage(lang);
         }
       }
     });
   }
 
-  // Web Speech API Narration (Synthetic Speech)
-  speakText(text, lang = null) {
+  // Create on-screen accessible speech caption pill
+  injectSpeechIndicator() {
+    if (document.getElementById('a11y-speech-indicator')) return;
+    const indicator = document.createElement('div');
+    indicator.id = 'a11y-speech-indicator';
+    indicator.setAttribute('role', 'status');
+    indicator.setAttribute('aria-live', 'polite');
+    indicator.style.cssText = `
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      z-index: 999999;
+      background: var(--bg-surface, #1e293b);
+      color: var(--text-main, #ffffff);
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--primary, #6366f1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+      max-width: 90vw;
+    `;
+    indicator.innerHTML = `
+      <span class="speech-pulse-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e; animation: pulse 1s infinite alternate;"></span>
+      <span id="a11y-speech-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 450px;">Speaking...</span>
+      <button id="a11y-speech-stop-btn" style="pointer-events: auto; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; border-radius: 999px; padding: 2px 8px; font-size: 0.75rem; cursor: pointer;">Stop ⏹</button>
+    `;
+    document.body.appendChild(indicator);
+
+    indicator.querySelector('#a11y-speech-stop-btn').addEventListener('click', () => {
+      this.stopSpeech();
+    });
+  }
+
+  showSpeechIndicator(text) {
+    const el = document.getElementById('a11y-speech-indicator');
+    const txt = document.getElementById('a11y-speech-text');
+    if (el && txt) {
+      txt.textContent = `🔊 ${text.slice(0, 60)}${text.length > 60 ? '...' : ''}`;
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(-50%) translateY(0)';
+      el.style.pointerEvents = 'auto';
+    }
+  }
+
+  hideSpeechIndicator() {
+    const el = document.getElementById('a11y-speech-indicator');
+    if (el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-50%) translateY(120px)';
+      el.style.pointerEvents = 'none';
+    }
+  }
+
+  // Transliterate Indic characters and extract English parenthesized meanings for fallback voices
+  static transliterateForSpeech(text, targetLang) {
+    if (!text || typeof text !== 'string') return '';
+    let result = text;
+
+    // 1. If text contains parenthesized English explanations like "ಅಮ್ಮ (Amma - Mother)", extract them
+    if (result.includes('(') && result.includes(')')) {
+      result = result.replace(/[\u0C80-\u0CFF\u0900-\u097F\s]*\(([^)]+)\)/g, '$1');
+    }
+
+    // 2. Common UI phrases transliteration
+    result = result
+      .replace(/ವಿಷಯ ೧/g, 'Topic 1')
+      .replace(/ವಿಷಯ ೨/g, 'Topic 2')
+      .replace(/ವಿಷಯ ೩/g, 'Topic 3')
+      .replace(/विषय १/g, 'Topic 1')
+      .replace(/विषय २/g, 'Topic 2')
+      .replace(/ಕೇಳಿ/g, 'Listen')
+      .replace(/ಸ್ವರಗಳು/g, 'Vowels')
+      .replace(/ವ್ಯಂಜನಗಳು/g, 'Consonants')
+      .replace(/ವರ್ಣಮಾಲೆ/g, 'Alphabet')
+      .replace(/೧೪/g, '14')
+      .replace(/೩೪/g, '34')
+      .replace(/೧/g, '1')
+      .replace(/೨/g, '2')
+      .replace(/೩/g, '3')
+      .replace(/೪/g, '4')
+      .replace(/೫/g, '5')
+      .replace(/೬/g, '6')
+      .replace(/೭/g, '7')
+      .replace(/೮/g, '8')
+      .replace(/೯/g, '9')
+      .replace(/೦/g, '0');
+
+    // 3. Kannada Characters Phonetics
+    const knMap = {
+      'ಅ': 'Short Ah', 'ಆ': 'Long Aah', 'ಇ': 'Short Ee', 'ಈ': 'Long Eeee',
+      'ಉ': 'Short Oo', 'ಊ': 'Long Oooo', 'ಋ': 'Ru', 'ಎ': 'Short Eh',
+      'ಏ': 'Long Ayy', 'ಐ': 'Eye', 'ಒ': 'Short Oh', 'ಓ': 'Long Ohhh',
+      'ಔ': 'Ow', 'ಅಂ': 'Am', 'ಅಃ': 'Aha',
+      'ಕ': 'Ka', 'ಖ': 'Kha', 'ಗ': 'Ga', 'ಘ': 'Gha', 'ಙ': 'Nga',
+      'ಚ': 'Cha', 'ಛ': 'Chha', 'ಜ': 'Ja', 'ಝ': 'Jha', 'ಞ': 'Nya',
+      'ಟ': 'Ta', 'ಠ': 'Tha', 'ಡ': 'Da', 'ಢ': 'Dha', 'ಣ': 'Na',
+      'ತ': 'Ta', 'ಥ': 'Tha', 'ದ': 'Da', 'ಧ': 'Dha', 'ನ': 'Na',
+      'ಪ': 'Pa', 'ಫ': 'Pha', 'ಬ': 'Ba', 'ಭ': 'Bha', 'ಮ': 'Ma',
+      'ಯ': 'Ya', 'ರ': 'Ra', 'ಲ': 'La', 'ವ': 'Va', 'ಶ': 'Sha',
+      'ಷ': 'Sha', 'ಸ': 'Sa', 'ಹ': 'Ha', 'ಳ': 'La'
+    };
+
+    // 4. Hindi Characters Phonetics
+    const hiMap = {
+      'अ': 'Ah', 'आ': 'Aah', 'इ': 'Ee', 'ई': 'Eeee', 'उ': 'Oo', 'ऊ': 'Oooo',
+      'ऋ': 'Ri', 'ए': 'Ayy', 'ऐ': 'Eye', 'ओ': 'Oh', 'औ': 'Ow', 'अं': 'Am', 'अः': 'Ah',
+      'क': 'Ka', 'ख': 'Kha', 'ग': 'Ga', 'घ': 'Gha', 'ङ': 'Nga',
+      'च': 'Cha', 'छ': 'Chha', 'ज': 'Ja', 'झ': 'Jha', 'ञ': 'Nya',
+      'ट': 'Ta', 'ठ': 'Tha', 'ड': 'Da', 'ढ': 'Dha', 'ण': 'Na',
+      'त': 'Ta', 'थ': 'Tha', 'द': 'Da', 'ध': 'Dha', 'न': 'Na',
+      'प': 'Pa', 'फ': 'Pha', 'ब': 'Ba', 'भ': 'Bha', 'म': 'Ma',
+      'य': 'Ya', 'र': 'Ra', 'ल': 'La', 'व': 'Va', 'श': 'Sha',
+      'ष': 'Sha', 'ಸ': 'Sa', 'ह': 'Ha', 'क्ष': 'Ksha', 'त्र': 'Tra', 'ज्ञ': 'Gya'
+    };
+
+    const map = targetLang === 'kn' ? knMap : (targetLang === 'hi' ? hiMap : { ...knMap, ...hiMap });
+    for (const [char, phoneme] of Object.entries(map)) {
+      if (result.includes(char)) {
+        result = result.split(char).join(phoneme + ' ');
+      }
+    }
+
+    return result.trim() || text;
+  }
+
+  /**
+   * Resilient Multilingual Web Speech API Narration
+   * Features:
+   * 1. Plays instant acoustic chime via Web Audio API.
+   * 2. Overcomes Chromium Windows cancel-before-speak queue drop bug.
+   * 3. Prevents GC deallocation of utterance in V8.
+   * 4. Multi-tier voice selection: native regional -> Hindi Indic -> Indian English -> default.
+   * 5. Fallback transliteration for systems lacking Indic speech packs so audio never fails.
+   */
+  speakText(text, lang = null, callback = null) {
+    if (!text || typeof text !== 'string') return;
+
+    // 1. Instant acoustic audio confirmation via Web Audio API
+    this.soundFX.playChime(523.25, 659.25);
+
     if (!this.synth) {
       console.warn('SpeechSynthesis is not supported on this device/browser.');
+      if (callback) callback();
       return;
     }
 
-    // Cancel existing speech
+    // Refresh voices if empty
+    if (!this.voices || this.voices.length === 0) {
+      this.loadVoices();
+    }
+
+    // 2. Unstick synthesis if paused
+    if (this.synth.paused) {
+      this.synth.resume();
+    }
+
+    // 3. Cancel previous speech
     this.synth.cancel();
 
-    const targetLang = lang || this.currentLang;
-    const utterance = new SpeechSynthesisUtterance(text);
+    // 4. Show friendly on-screen speech indicator
+    this.showSpeechIndicator(text);
 
-    // Map language code to BCP 47 voice locale
-    if (targetLang === 'kn') {
-      utterance.lang = 'kn-IN';
-    } else if (targetLang === 'hi') {
-      utterance.lang = 'hi-IN';
-    } else {
-      utterance.lang = 'en-US';
-    }
+    // 5. Short timeout required for Chromium on Windows to settle the cancel before queueing
+    setTimeout(() => {
+      try {
+        const targetLang = lang || this.currentLang;
+        let spokenText = text;
 
-    utterance.rate = 0.95; // slightly slower for educational clarity
-    utterance.pitch = 1.05; // friendly tone
+        // Find best matching voice
+        let matchedVoice = null;
+        const voices = this.voices && this.voices.length > 0 ? this.voices : (this.synth.getVoices() || []);
 
-    // Attempt to pick a natural regional voice if available in browser
-    const voices = this.synth.getVoices();
-    const matchingVoice = voices.find(v => v.lang.startsWith(utterance.lang.split('-')[0]));
-    if (matchingVoice) {
-      utterance.voice = matchingVoice;
-    }
+        if (targetLang === 'kn') {
+          // Look for native Kannada voice
+          matchedVoice = voices.find(v => v.lang && (v.lang.startsWith('kn') || v.name.toLowerCase().includes('kannada')));
+          if (!matchedVoice) {
+            // Check Hindi (Indic phonetic engine)
+            matchedVoice = voices.find(v => v.lang && (v.lang.startsWith('hi') || v.name.toLowerCase().includes('hindi')));
+          }
+          if (!matchedVoice) {
+            // Check Indian English
+            matchedVoice = voices.find(v => v.lang && (v.lang === 'en-IN' || v.name.toLowerCase().includes('india')));
+          }
+        } else if (targetLang === 'hi') {
+          matchedVoice = voices.find(v => v.lang && (v.lang.startsWith('hi') || v.name.toLowerCase().includes('hindi')));
+          if (!matchedVoice) {
+            matchedVoice = voices.find(v => v.lang && (v.lang === 'en-IN' || v.name.toLowerCase().includes('india')));
+          }
+        } else {
+          matchedVoice = voices.find(v => v.lang && (v.lang === 'en-IN' || v.lang.startsWith('en')));
+        }
 
-    this.synth.speak(utterance);
+        // If no language-specific voice was found on this Windows/Chromium installation,
+        // fall back to system default voice or first available voice (typically English)
+        if (!matchedVoice) {
+          matchedVoice = voices.find(v => v.default) || (voices.length > 0 ? voices[0] : null);
+        }
+
+        // Check if we are using an English or non-native voice for Kannada/Hindi
+        const isNativeIndicVoice = matchedVoice && (
+          (targetLang === 'kn' && (matchedVoice.lang.startsWith('kn') || matchedVoice.name.toLowerCase().includes('kannada'))) ||
+          (targetLang === 'hi' && (matchedVoice.lang.startsWith('hi') || matchedVoice.name.toLowerCase().includes('hindi')))
+        );
+
+        if (!isNativeIndicVoice && (targetLang === 'kn' || targetLang === 'hi')) {
+          spokenText = LanguageManager.transliterateForSpeech(spokenText, targetLang);
+        }
+
+        const utterance = new SpeechSynthesisUtterance(spokenText);
+
+        // Always pair utterance.lang with the matched voice's actual language to avoid 'language-unavailable' drop
+        if (matchedVoice) {
+          utterance.voice = matchedVoice;
+          utterance.lang = matchedVoice.lang;
+        } else {
+          utterance.lang = targetLang === 'kn' ? 'kn-IN' : (targetLang === 'hi' ? 'hi-IN' : 'en-US');
+        }
+
+        utterance.rate = this.speechRate;
+        utterance.pitch = 1.05;
+
+        // Critical: Store reference globally to avoid V8 garbage collection mid-speech
+        window._activeSpeechUtterance = utterance;
+        this.isSpeaking = true;
+
+        utterance.onend = () => {
+          this.isSpeaking = false;
+          window._activeSpeechUtterance = null;
+          this.hideSpeechIndicator();
+          if (callback) callback();
+        };
+
+        utterance.onerror = (err) => {
+          console.warn('[Speech] Synthesis event error:', err);
+          this.isSpeaking = false;
+          window._activeSpeechUtterance = null;
+          this.hideSpeechIndicator();
+          if (callback) callback();
+        };
+
+        this.synth.speak(utterance);
+      } catch (err) {
+        console.warn('[Speech] speak failed:', err);
+        this.hideSpeechIndicator();
+        if (callback) callback();
+      }
+    }, 45);
   }
 
   stopSpeech() {
     if (this.synth) {
       this.synth.cancel();
     }
+    this.isSpeaking = false;
+    window._activeSpeechUtterance = null;
+    this.hideSpeechIndicator();
   }
 }
 
 // Global Export
+window.SoundFX = SoundFXEngine;
 window.lang = new LanguageManager();
 document.addEventListener('DOMContentLoaded', () => window.lang.init());

@@ -213,6 +213,12 @@ html.font-xlarge { font-size: 22px; }
   animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.lesson-modal-panel,
+.video-modal-panel {
+  overflow: hidden !important;
+}
+
+
 .a11y-panel-header {
   display: flex;
   align-items: center;

@@ -119,6 +119,50 @@ CURATED_VIDEOS = [
         "duration": "16:45",
         "description": "Create your first interactive web page with tags, colors, animations, and friendly logic.",
         "thumbnail": "https://img.youtube.com/vi/xPq1KrYWbqo/hqdefault.jpg"
+    },
+    {
+        "id": "vid_11",
+        "youtube_id": "libKVRa01L8",
+        "title": "3D Solar System & Planet Orbits: Cosmic Adventure",
+        "category": "science",
+        "language": "en",
+        "level": "beginner",
+        "duration": "11:20",
+        "description": "Spectacular 3D planetary tour showing orbital speeds, relative planet scales, and the radiant Sun.",
+        "thumbnail": "https://img.youtube.com/vi/libKVRa01L8/hqdefault.jpg"
+    },
+    {
+        "id": "vid_12",
+        "youtube_id": "UPBMG5EYydo",
+        "title": "3D Plant Photosynthesis & Ecosystem Animation",
+        "category": "science",
+        "language": "en",
+        "level": "intermediate",
+        "duration": "09:35",
+        "description": "Step inside a green leaf in 3D animation to watch chlorophyll convert sunlight, water, and CO2 into clean oxygen.",
+        "thumbnail": "https://img.youtube.com/vi/UPBMG5EYydo/hqdefault.jpg"
+    },
+    {
+        "id": "vid_13",
+        "youtube_id": "sZ2h_4iLd3s",
+        "title": "3D Indian Rupee Money & Supermarket Shopping",
+        "category": "everyday",
+        "language": "en",
+        "level": "beginner",
+        "duration": "10:50",
+        "description": "Interactive animated guide to counting Indian rupee coins and notes, calculating bills, and getting exact change.",
+        "thumbnail": "https://img.youtube.com/vi/sZ2h_4iLd3s/hqdefault.jpg"
+    },
+    {
+        "id": "vid_14",
+        "youtube_id": "yrln8nyVBLU",
+        "title": "3D Cyber Shield: Password Fortress & Safe Browsing",
+        "category": "technology",
+        "language": "en",
+        "level": "intermediate",
+        "duration": "08:45",
+        "description": "Futuristic 3D animated guide to creating unbreakable passwords, identifying phishing scams, and protecting personal identity.",
+        "thumbnail": "https://img.youtube.com/vi/yrln8nyVBLU/hqdefault.jpg"
     }
 ]
 
@@ -311,8 +355,27 @@ CURATED_LESSONS = [
         "description": "Explore 1 to 100 counting grid, tens and units, even and odd numbers with interactive counters.",
         "xp": 50,
         "content": {
+            
             "ranges": ["1 to 20: Core foundations", "21 to 50: Tens groupings", "51 to 100: Century journey"],
             "concepts": ["Place value (Tens & Ones)", "Even numbers (2, 4, 6...)", "Odd numbers (1, 3, 5...)"]
+        }
+    },
+    {
+        "id": "math-addition-subtraction",
+        "title": "Addition and Subtraction within 100",
+        "subject": "mathematics",
+        "level": "beginner",
+        "icon": "plus-minus",
+        "description": "Master addition and subtraction facts up to 100 using number bonds, mental math strategies, and real-world problems.",
+        "xp": 60,
+        "content": {
+            "topics": [
+                {"title": "Addition within 20", "concepts": ["Number bonds to 20", "Adding 10 to numbers", "Doubles facts"]},
+                {"title": "Addition within 100", "concepts": ["2-digit + 1-digit", "2-digit + 2-digit", "Carrying over"]},
+                {"title": "Subtraction within 20", "concepts": ["Missing number problems", "Subtraction as partitioning"]},
+                {"title": "Subtraction within 100", "concepts": ["2-digit - 1-digit", "2-digit - 2-digit", "Decomposition method"]},
+                {"title": "Word Problems", "concepts": ["Identify keywords", "Choose operation", "Write equation"]}
+            ]
         }
     },
     {
@@ -573,9 +636,14 @@ class DBService:
     @staticmethod
     def get_all_lessons(subject=None, level=None):
         lessons = CURATED_LESSONS
-        if subject:
-            lessons = [l for l in lessons if l["subject"] == subject]
-        if level:
+        if subject and subject != "all":
+            if subject == "life_skills":
+                lessons = [l for l in lessons if l["subject"] == "life_skills" or "life-" in l.get("id", "") or "money" in l.get("id", "") or "clock" in l.get("id", "")]
+            elif subject == "everyday":
+                lessons = [l for l in lessons if l["subject"] in ("everyday", "life_skills")]
+            else:
+                lessons = [l for l in lessons if l["subject"] == subject]
+        if level and level != "all":
             lessons = [l for l in lessons if l["level"] == level]
         return lessons
 
